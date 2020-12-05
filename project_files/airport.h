@@ -10,13 +10,20 @@
 using namespace std;
 
 
-class flights
+class Flights
 {
-    public:
-    flights();
+public:
+/*
+* Constructor
+*/
+    Flights();
+
+/*
+* Function to read data from file
+*/
     vector<string> readData(const string &filename);
 
-    private:
+private:
     Graph g;
     vector<vector<string>> list;
 };

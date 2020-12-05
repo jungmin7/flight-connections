@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    flights air;
+    Flights air;
     air.readData("routes_test.txt");
     return 0;
 }

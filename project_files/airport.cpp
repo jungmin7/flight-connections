@@ -8,11 +8,11 @@
 
 using namespace std;
 
-flights::flights() : g(true, true)
+Flights::Flights() : g(true, true)
 {
 }
 
-vector<string> flights::readData(const string &filename)
+vector<string> Flights::readData(const string &filename)
 {
 	ifstream text(filename);
 	vector<string> out;
