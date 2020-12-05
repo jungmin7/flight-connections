@@ -3,17 +3,26 @@
 #include "graph.h"
 #include "airport.h"
 
+#include <iterator>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <map>
 
-using namespace std;
+using std::string;
+using std::map;
+using std::vector;
+using std::ifstream;
+using std::istream;
+using std::istream_iterator;
+using std::stringstream;
+
 
 Flights::Flights() : g(true, true)
 {
-    
+
 }
 
 vector<string> Flights::readData(const string &filename)
@@ -49,4 +58,10 @@ vector<string> Flights::readData(const string &filename)
         cout << "\n" << out[i] << endl;
     }
 	return out;
-} 
+}
+
+double Flights::calculateDist(const double latitude, const double longitude) {
+    
+
+}
+
