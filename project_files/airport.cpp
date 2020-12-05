@@ -22,6 +22,7 @@ using std::stringstream;
 
 Flights::Flights() : g(true, true)
 {
+    
 
 }
 
@@ -61,7 +62,7 @@ vector<string> Flights::readData(const string &filename)
 }
 
 double Flights::calculateDist(const double latitude, const double longitude) {
-    
+
 
 }
 

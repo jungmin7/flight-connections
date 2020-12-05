@@ -34,11 +34,8 @@ class Flights
         Graph g;
         vector<vector<string>> list;
 
-        string code;
-        map<string, string> routes;
-
-        
-
-
+        vector<string> code;
+        map<string, double> latitude;
+        map<string, double> longitude;
 
 };
