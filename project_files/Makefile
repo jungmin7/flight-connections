@@ -1,10 +1,10 @@
 # Executable names:
-EXE = flights
+EXE = main
 TEST = test
 
 # Add all object files needed for compiling:
 EXE_OBJ = main.o
-OBJS = graph.o main.o airports.o
+OBJS = graph.o main.o airport.o
 
 # Use the cs225 makefile template:
 include cs225/make/cs225.mk
