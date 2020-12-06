@@ -63,6 +63,6 @@ vector<string> Flights::readData(const string &filename)
 
 double Flights::calculateDist(const double latitude, const double longitude) {
 
-
+    return 5; //compiler issues
 }
 
