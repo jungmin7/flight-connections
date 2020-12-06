@@ -75,11 +75,12 @@ double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, doub
 
 int main()
 {   
-    /**
+
     Flights air;
-    air.readData("routes_test.txt");
-    //return 0;
-    */
+    //cout << air.stringToDouble("-45.040");
+    air.readFlights("routes_test.txt");
+    return 0;
+    
     
     Graph g1 = Graph(true, true);
     g1.insertEdge("SIN", "ICN");
