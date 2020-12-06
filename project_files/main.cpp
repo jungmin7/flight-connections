@@ -18,7 +18,7 @@ using namespace std;
             double degTorad(double deg);
             double radTodeg(double rad);
 
-            double distanceEarth(double lat1d, double lon1d, double lat2d, double lon2d);
+            double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg);
 
     };
 
@@ -51,37 +51,25 @@ double radToDeg(double rad) {
  * Parameters all in degrees.
  * Returns distance between two points in kilometers.
  */
-double distanceEarth(double lat1d, double lon1d, double lat2d, double lon2d) {
+double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg) {
 
   
-  double lat1_rad = degToRad(lat1d);
-  double lon1_rad = degToRad(lon1d);
-  double lat2_rad = degToRad(lat2d);
-  double lon2_rad = degToRad(lon2d);
+  double lat1_rad = degToRad(lat1_deg);
+  double lon1_rad = degToRad(lon1_deg);
+  double lat2_rad = degToRad(lat2_deg);
+  double lon2_rad = degToRad(lon2_deg);
 
   double latDiff = sin((lat2_rad - lat1_rad) / 2);
   double lonDiff = sin((lon2_rad - lon1_rad) / 2);
   cout << latDiff << " " << lonDiff << endl;
   double a = latDiff * latDiff   +   cos(lat1_rad) * cos(lat2_rad) * lonDiff * lonDiff;
   double earthRadius = 6371.0; //in KILOMETERS. https://en.wikipedia.org/wiki/Earth
-  // return 2.0 * earthRadius * asin(sqrt(a));
+  return 2.0 * earthRadius * asin(sqrt(a));
 
   // radius varies on Earth: 6356.752 km at the poles to 6378.137 km at the equator. 
   // computing SIN to ICN results in 4780.65
-  // First iteration: 4627.36; Second iteration: 4780.65; Second iteration:
+  // First iteration: 4627.36; Second iteration: 4780.65; Third iteration: 4627.37
 
-  
-  
-  double lat1r, lon1r, lat2r, lon2r, u, v;
-  lat1r = degToRad(lat1d);
-  lon1r = degToRad(lon1d);
-  lat2r = degToRad(lat2d);
-  lon2r = degToRad(lon2d);
-  u = sin((lat2r - lat1r)/2);
-  v = sin((lon2r - lon1r)/2);
-  cout << u << "" << v << endl;
-  return 2.0 * 6371.0 * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
-  
 }
 
 
@@ -111,7 +99,7 @@ int main()
     myMap["SIN"] = pair<double, double>(1.35019, 103.994003);
     myMap["ICN"] = pair<double, double>(37.46910095214844, 126.45099639892578);
 
-    double SINtoICNDistance = distanceEarth(myMap["SIN"].first, myMap["SIN"].second, myMap["ICN"].first, myMap["ICN"].second);
+    double SINtoICNDistance = distanceHaversine(myMap["SIN"].first, myMap["SIN"].second, myMap["ICN"].first, myMap["ICN"].second);
 
     cout << SINtoICNDistance << endl;
 
