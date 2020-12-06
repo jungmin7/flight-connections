@@ -81,14 +81,11 @@ int main()
     //return 0;
     */
     
-
-
     Graph g1 = Graph(true, true);
     g1.insertEdge("SIN", "ICN");
     g1.insertEdge("ICN", "JFK");
     g1.setEdgeWeight("SIN", "ICN", 10); 
     g1.setEdgeWeight("ICN", "JFK", 20);
-
 
     map<string, pair<double, double>> myMap;
 
@@ -107,8 +104,7 @@ int main()
 
 
 
-   // TRASH CODE:
-   /**
+   /** TRASH CODE:
     //cout << myMap["SIN"].first << endl;
     // g1.print();
 
@@ -116,10 +112,10 @@ int main()
     map1.insert(pair<string, pair<double, double>>("ICN", pair<double,double>(5.4, 5)));
 
     cout << map1[0].first << endl;
-    */
 
     //ex: "SIN", pair<10.40, 20.20>
     //    "ICN", pair<5.4, 5.0>
+    */
 
 
 
@@ -137,6 +133,7 @@ int main()
     // g2.setEdgeWeight("NRT", "JFK", 40);
 
     // g2.print();
+    
     /**
     class testingBFS {
 
