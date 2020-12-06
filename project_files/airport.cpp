@@ -59,6 +59,8 @@ vector<string> Flights::readData(const string &filename)
         cout << "\n" << out[i] << endl;
     }
 	return out;
+
+    //testing testing 1 2 3.
 }
 
 double Flights::calculateDist(const double latitude, const double longitude) {
