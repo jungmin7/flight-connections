@@ -7,8 +7,15 @@
 
 #include <map>
 
-using namespace std;
 
+
+using namespace std;
+#include <utility> // for pair
+#include <cmath>
+#include "edge.h"
+
+#include <stdlib.h>
+using namespace std;
 
 class Flights
 {
@@ -18,10 +25,16 @@ class Flights
      */
     Flights();
 
+
     /**
-     * Function to read data from file
+     * Function to read longitude/latitude data from flights dataset.
      */
-    vector<string> readData(const string &filename);
+    map<string, pair<double, double>> readAirports(const string &filename);
+
+    /**
+     * Function to read data from flight paths data set.
+     */
+    vector<string> readFlights(const string &filename);
 
     /**
      * Function to calculate dist between airports.
@@ -31,7 +44,7 @@ class Flights
      */
     double calculateDist(const double latitude, const double longitude);
 
-    
+    double stringToDouble(string str);
     private:
         Graph g;
         vector<vector<string>> list;
