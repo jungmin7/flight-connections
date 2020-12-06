@@ -53,20 +53,35 @@ double radToDeg(double rad) {
  */
 double distanceEarth(double lat1d, double lon1d, double lat2d, double lon2d) {
 
+  
   double lat1_rad = degToRad(lat1d);
   double lon1_rad = degToRad(lon1d);
   double lat2_rad = degToRad(lat2d);
   double lon2_rad = degToRad(lon2d);
 
-  double latDiff = (lat2_rad - lat1_rad);
-  double lonDiff = (lon2_rad - lon1_rad);
-  
-  double a = sin(latDiff / 2) * sin(latDiff / 2)   +   cos(lat1_rad) * cos(lat1_rad) * sin(lonDiff / 2) * sin(lonDiff / 2);
+  double latDiff = sin((lat2_rad - lat1_rad) / 2);
+  double lonDiff = sin((lon2_rad - lon1_rad) / 2);
+  cout << latDiff << " " << lonDiff << endl;
+  double a = latDiff * latDiff   +   cos(lat1_rad) * cos(lat2_rad) * lonDiff * lonDiff;
   double earthRadius = 6371.0; //in KILOMETERS. https://en.wikipedia.org/wiki/Earth
-  return 2 * earthRadius * asin(sqrt(a));
+  // return 2.0 * earthRadius * asin(sqrt(a));
 
   // radius varies on Earth: 6356.752 km at the poles to 6378.137 km at the equator. 
   // computing SIN to ICN results in 4780.65
+  // First iteration: 4627.36; Second iteration: 4780.65; Second iteration:
+
+  
+  
+  double lat1r, lon1r, lat2r, lon2r, u, v;
+  lat1r = degToRad(lat1d);
+  lon1r = degToRad(lon1d);
+  lat2r = degToRad(lat2d);
+  lon2r = degToRad(lon2d);
+  u = sin((lat2r - lat1r)/2);
+  v = sin((lon2r - lon1r)/2);
+  cout << u << "" << v << endl;
+  return 2.0 * 6371.0 * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
+  
 }
 
 
