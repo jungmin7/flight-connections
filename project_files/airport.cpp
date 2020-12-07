@@ -112,7 +112,7 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
             }
         }
 
-        cout << fourthCommaIndex << " " <<sixthCommaIndex << " " << seventhCommaIndex << endl;
+        //cout << fourthCommaIndex << " " <<sixthCommaIndex << " " << seventhCommaIndex << endl;
         //cout << "\n" << out[i] << endl;
 
         //finding the airport name(ex: "SIN"), longitude string and latitude string.
@@ -142,7 +142,7 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
  * @return vector<string>
  */
 vector<string> Flights::readFlights(const string &filename) {
-	ifstream text(filename);
+	/*ifstream text(filename);
 	vector<string> out;
 
 	if (text.is_open()) {
@@ -151,9 +151,23 @@ vector<string> Flights::readFlights(const string &filename) {
 			out.push_back(*iter);
 			++iter;
 		}
-	}
+	}*/
 
-    //string airport;
+    cout << "entered readFlights function" << endl;
+    ifstream file;
+    file.open(filename);
+    vector<string> out;
+
+    if (!file.is_open()) {
+        cout << "error while opening the file" << endl;
+    } else {
+        string line;
+        while (!file.eof()) {
+            getline(file, line);
+            cout << line << endl; //ok so i think getline modifies the line var itself??
+            out.push_back(line);
+        }
+    }
 
     string firstAirport;
     string secondAirport;
