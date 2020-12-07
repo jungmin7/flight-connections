@@ -48,7 +48,3 @@ TEST_CASE("test_read_airports", "")
 
 
 
-
-
-
-
