@@ -7,8 +7,6 @@
 
 #include <map>
 
-
-
 using namespace std;
 #include <utility> // for pair
 #include <cmath>
@@ -77,8 +75,8 @@ class Flights
         Graph g;
         vector<vector<string>> list;
 
-        vector<string> code;
-        map<string, double> latitude;
-        map<string, double> longitude;
+        // vector<string> code;
+        // map<string, double> latitude;
+        // map<string, double> longitude;
 
 };

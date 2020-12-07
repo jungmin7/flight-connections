@@ -199,7 +199,7 @@ double Flights::radToDeg(double rad) {
 }
 
 
-int shortestPath(Vertex src, Vertex dest)
+int Flights::shortestPath(Vertex src, Vertex dest)
 {
     queue<Vertex> queue;
     map<Vertex,int> dist;
@@ -207,10 +207,9 @@ int shortestPath(Vertex src, Vertex dest)
 
     for (auto vertices : g.getVertices()) {
         dist[vertices] = numeric_limits<double>::infinity();
-        pred[vertices] = NULL;
+        // pred[vertices] = NULL;
     }
     dist[src] = 0;
-
 
     queue.push(src);
 
@@ -218,7 +217,7 @@ int shortestPath(Vertex src, Vertex dest)
         Vertex curr = queue.front();
         queue.pop();
 
-        vector<Vertex> adj = g.getAdjcent(curr);
+        vector<Vertex> adj = g.getAdjacent(curr);
         for (auto it = adj.begin(); it != adj.end(); it++) {
             int distance = g.getEdgeWeight(src,(*it)); 
             if (distance + dist[curr] < dist[*it]) {
