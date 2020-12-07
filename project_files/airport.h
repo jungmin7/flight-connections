@@ -23,7 +23,7 @@ class Flights
     /**
      * Constructor
      */
-    Flights();
+    Flights(const string &, const string &);
 
     /**
      * Function to read longitude/latitude data from flights dataset.
@@ -33,7 +33,7 @@ class Flights
     /**
      * Function to read data from flight paths data set.
      */
-    vector<string> readFlights(const string &filename);
+    void readFlights(const string &, const string &);
 
     /**
      * Helper function to convert a string into a double.

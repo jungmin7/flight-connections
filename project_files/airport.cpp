@@ -24,8 +24,10 @@ using std::stringstream;
 #include <stdlib.h>
 using namespace std;
 
-Flights::Flights() : g(true, true) {
-    
+Flights::Flights(const string &airport_data, const string &routes_data) : g(true, true)
+{
+    readFlights(airport_data, routes_data);
+    g.print();
 }
 
 /**
@@ -35,47 +37,26 @@ Flights::Flights() : g(true, true) {
  * @return vector<string>
  */
 map<string, pair<double, double>> Flights::readAirports(const string &filename) {
-    // map<string, pair<double, double>> myMap;
-    // return myMap;
+    //Main variable to return
+    //Contains all the airport data with coords
+    map<string, pair<double, double>> coordinateMap;
 
-    
+    //array to store all the airport data that is to be processed
     vector<string> out;
-    /** Hemank's original code that didn't pull lines properly.
-    ifstream text(filename);
 
-	if (text.is_open()) {
-		istream_iterator<string> iter(text);
-		while (!text.eof()) {
-			out.push_back(*iter);
-			++iter;
-		}
-	}
-    */
-
-    map<string, pair<double, double>> coordinateMap; //mapping airport to <longitude, latitude>
-
-    /** Jay: TESTING IFSTREAM GETLINE() 12/07. 
-     * https://www.youtube.com/watch?v=Ru7Tump8fKY&ab_channel=LearningLad
-     */
+    //Opening file
     ifstream file;
     file.open(filename);
-
     if (!file.is_open()) {
         cout << "error while opening the file" << endl;
     } else {
         string line;
         while (!file.eof()) {
             getline(file, line);
-            cout << line << endl; //ok so i think getline modifies the line var itself??
             out.push_back(line);
         }
     }
-    // return coordinateMap;
 
-    /** IMPORTANT POINT: if you use my way of opening files using getline, if you have an extra line at the end
-     * then it will treat that as a line, it will getline(), increase the size of your vector, and terminate with an uncaught exception.
-     * but Hemank's code can leave extra lines at the end? Why is that?
-     */
     for(unsigned i = 0; i < out.size(); i++) { //traverses line by line.
         string str = out[i];
         int count = 0;
@@ -84,14 +65,10 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
         int seventhCommaIndex;
         int eighthCommaIndex;
 
-        cout << str << endl;
-
         for (unsigned j = 0; j < str.length(); j++) { //traverses each line to find indexes of commas.
             if(str.at(j) == ',' && count <= 8) { //up until 8th comma because information after that is irrelevant.
                 count++;
                 if (count == 4 || count == 6 || count == 7 || count == 8) {
-                    // firstAirport = str.substr(j+2, 3); //ex: ,"GKA",
-                    //cout << firstAirport << " ";
                     if (count == 4) {
                         fourthCommaIndex = j;
                     } else if (count == 6) {
@@ -102,34 +79,23 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
                         eighthCommaIndex = j;
                     }
                 }
-                /**
-                if (count == 4 || count == 6 || ) {
-                    secondAirport = str.substr(j+1, 3);
-                    cout << secondAirport << " " << endl;
-                }
-                */
-                
             }
         }
 
-        //cout << fourthCommaIndex << " " <<sixthCommaIndex << " " << seventhCommaIndex << endl;
-        //cout << "\n" << out[i] << endl;
-
         //finding the airport name(ex: "SIN"), longitude string and latitude string.
-            string airport = str.substr(fourthCommaIndex+2, 3); //ex: ,"GKA",
-            string latitude_str = str.substr(sixthCommaIndex+1, (seventhCommaIndex-sixthCommaIndex-1)); //ex: ,-6.081689834590001, 
-            string longitude_str = str.substr(seventhCommaIndex+1, (eighthCommaIndex-seventhCommaIndex-1)); 
+        string airport = str.substr(fourthCommaIndex+2, 3); //ex: ,"GKA",
+        string latitude_str = str.substr(sixthCommaIndex+1, (seventhCommaIndex-sixthCommaIndex-1)); //ex: ,-6.081689834590001, 
+        string longitude_str = str.substr(seventhCommaIndex+1, (eighthCommaIndex-seventhCommaIndex-1)); 
 
-            //convert strings to doubles; works for negative too.
-            double latitude = stringToDouble(latitude_str);
-            double longitude = stringToDouble(longitude_str);
-
-            cout << airport << " " << latitude << " " << longitude << endl;
+        //convert strings to doubles; works for negative too.
+        double latitude = stringToDouble(latitude_str);
+        double longitude = stringToDouble(longitude_str);
             
-            //enter inside map (ex: myMap["SIN"] = pair<double, double>(1.35019, 103.994003);)
-            coordinateMap[airport] = pair<double, double>(latitude, longitude);
+        //enter inside map (ex: myMap["SIN"] = pair<double, double>(1.35019, 103.994003);)
+        coordinateMap[airport] = pair<double, double>(latitude, longitude);
         
     }
+
 	return coordinateMap; //return the map of strings to pairs.
 
 }
@@ -141,21 +107,9 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
  * @param data file
  * @return vector<string>
  */
-vector<string> Flights::readFlights(const string &filename) {
-	/*ifstream text(filename);
-	vector<string> out;
-
-	if (text.is_open()) {
-		istream_iterator<string> iter(text);
-		while (!text.eof()) {
-			out.push_back(*iter);
-			++iter;
-		}
-	}*/
-
-    cout << "entered readFlights function" << endl;
+void Flights::readFlights(const string &filename1, const string &filename2) {
     ifstream file;
-    file.open(filename);
+    file.open(filename1);
     vector<string> out;
 
     if (!file.is_open()) {
@@ -164,11 +118,12 @@ vector<string> Flights::readFlights(const string &filename) {
         string line;
         while (!file.eof()) {
             getline(file, line);
-            cout << line << endl; //ok so i think getline modifies the line var itself??
+            //cout << line << endl; //ok so i think getline modifies the line var itself??
             out.push_back(line);
         }
     }
 
+    map<string, pair<double, double>> airport = readAirports(filename2);
     string firstAirport;
     string secondAirport;
     for(unsigned i = 0; i < out.size(); i++) { //traverses line by line.
@@ -178,20 +133,18 @@ vector<string> Flights::readFlights(const string &filename) {
             if(str.at(j) == ',') {
                 count++;
                 if (count == 2) {
-                    firstAirport = str.substr(j+1, 3);
-                    cout << firstAirport << " ";
+                    firstAirport = str.substr(j + 1, 3);
                 }
                 if (count == 4) {
-                    secondAirport = str.substr(j+1, 3);
-                    cout << secondAirport << " " << endl;
+                    secondAirport = str.substr(j + 1, 3);
                 }
             }
         }
-        //cout << "\n" << out[i] << endl;
+        g.insertEdge(firstAirport, secondAirport);
+        double dist = distanceHaversine(airport[firstAirport].first, airport[firstAirport].second, airport[secondAirport].first, airport[secondAirport].second);
+        g.setEdgeWeight(firstAirport, secondAirport, dist);
         
     }
-	return out;
-
 }
 
 /**
