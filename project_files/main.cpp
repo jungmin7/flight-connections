@@ -75,8 +75,8 @@ double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, doub
 
 int main()
 {   
-
-    Flights air;
+    
+    //Flights air;
     //cout << air.stringToDouble("-45.040");
     //air.readFlights("routes_test.txt");
     map<string, pair<double, double>> mainTest = air.readAirports("airports_test.txt");
@@ -135,6 +135,7 @@ int main()
     // g2.setEdgeWeight("NRT", "JFK", 40);
 
     g2.print();
+  
     
     /**
     class testingBFS {

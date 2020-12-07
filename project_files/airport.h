@@ -63,7 +63,13 @@ class Flights
     double radToDeg(double rad);
 
 
-
+    /**
+     * Function to find the shortest path using Dijkstra's algorithm
+     * @param src the departure airport
+     * @param dest the arrival airport
+     * @return the shortest distance path between two airports
+     */
+    int shortestPath(Vertex src, Vertex dest);
 
 
 

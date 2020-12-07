@@ -10,6 +10,7 @@
 #include <vector>
 #include <queue>
 #include <map>
+#include <limits>
 
 using std::string;
 using std::map;
@@ -196,3 +197,39 @@ double Flights::degToRad(double deg) {
 double Flights::radToDeg(double rad) {
   return (rad * 180 / M_PI);
 }
+
+
+int shortestPath(Vertex src, Vertex dest)
+{
+    queue<Vertex> queue;
+    map<Vertex,int> dist;
+    map<Vertex,string> pred;
+
+    for (auto vertices : g.getVertices()) {
+        dist[vertices] = numeric_limits<double>::infinity();
+        pred[vertices] = NULL;
+    }
+    dist[src] = 0;
+
+
+    queue.push(src);
+
+    while (!queue.empty()) {
+        Vertex curr = queue.front();
+        queue.pop();
+
+        vector<Vertex> adj = g.getAdjcent(curr);
+        for (auto it = adj.begin(); it != adj.end(); it++) {
+            int distance = g.getEdgeWeight(src,(*it)); 
+            if (distance + dist[curr] < dist[*it]) {
+                dist[*it] = distance + dist[curr];
+                pred[*it] = curr;
+            }
+        }
+    }
+
+    return dist[dest];
+
+}
+
+

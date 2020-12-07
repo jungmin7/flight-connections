@@ -37,10 +37,13 @@ static map<string, pair<double, double>> airport_results = {
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
+
+//need to change since the constructor changed
+
 TEST_CASE("test_read_airports", "")
 {
 
-    Flights air;
+    Flights air("airports_test.txt","routes_test.txt");
     map<string, pair<double, double>> airport_map = air.readAirports("airports_test.txt");
     REQUIRE(airport_map == airport_results);
 
