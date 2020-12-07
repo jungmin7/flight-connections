@@ -38,10 +38,10 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
     // map<string, pair<double, double>> myMap;
     // return myMap;
 
-    ifstream text(filename);
-	vector<string> out;
     
-    map<string, pair<double, double>> coordinateMap; //mapping airport to <longitude, latitude>
+    vector<string> out;
+    /** Hemank's original code that didn't pull lines properly.
+    ifstream text(filename);
 
 	if (text.is_open()) {
 		istream_iterator<string> iter(text);
@@ -50,7 +50,32 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
 			++iter;
 		}
 	}
+    */
 
+    map<string, pair<double, double>> coordinateMap; //mapping airport to <longitude, latitude>
+
+    /** Jay: TESTING IFSTREAM GETLINE() 12/07. 
+     * https://www.youtube.com/watch?v=Ru7Tump8fKY&ab_channel=LearningLad
+     */
+    ifstream file;
+    file.open(filename);
+
+    if (!file.is_open()) {
+        cout << "error while opening the file" << endl;
+    } else {
+        string line;
+        while (!file.eof()) {
+            getline(file, line);
+            cout << line << endl; //ok so i think getline modifies the line var itself??
+            out.push_back(line);
+        }
+    }
+    // return coordinateMap;
+
+    /** IMPORTANT POINT: if you use my way of opening files using getline, if you have an extra line at the end
+     * then it will treat that as a line, it will getline(), increase the size of your vector, and terminate with an uncaught exception.
+     * but Hemank's code can leave extra lines at the end? Why is that?
+     */
     for(unsigned i = 0; i < out.size(); i++) { //traverses line by line.
         string str = out[i];
         int count = 0;
@@ -106,6 +131,7 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
         
     }
 	return coordinateMap; //return the map of strings to pairs.
+
 }
 
 
@@ -154,13 +180,52 @@ vector<string> Flights::readFlights(const string &filename) {
 
 }
 
-double Flights::calculateDist(const double latitude, const double longitude) {
-
-    return 5; //compiler issues
-}
-
-
-double Flights::stringToDouble(string str) { // tested that this works for negative numbers too.
+/**
+ * Helper function to convert a string into a double.
+ * Tested that this works for negative numbers too.
+ * @param string 
+ * @return double
+ */
+double Flights::stringToDouble(string str) { 
     double d = strtod(str.c_str(), NULL);
     return d;
+}
+
+/**
+ * Returns the distance between two points on the Earth using Haversine Formula.
+ * https://www.movable-type.co.uk/scripts/latlong.html
+ * Parameters all in degrees.
+ * Returns distance between two points in kilometers.
+ */
+double Flights::distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg) {
+
+    double lat1_rad = degToRad(lat1_deg);
+    double lon1_rad = degToRad(lon1_deg);
+    double lat2_rad = degToRad(lat2_deg);
+    double lon2_rad = degToRad(lon2_deg);
+
+    double latDiff = sin((lat2_rad - lat1_rad) / 2);
+    double lonDiff = sin((lon2_rad - lon1_rad) / 2);
+    cout << latDiff << " " << lonDiff << endl;
+    double a = latDiff * latDiff   +   cos(lat1_rad) * cos(lat2_rad) * lonDiff * lonDiff;
+    double earthRadius = 6371.0; //in KILOMETERS. https://en.wikipedia.org/wiki/Earth
+    return 2.0 * earthRadius * asin(sqrt(a));
+
+    // radius varies on Earth: 6356.752 km at the poles to 6378.137 km at the equator. 
+    // computing SIN to ICN results in 4780.65
+    // First iteration: 4627.36; Second iteration: 4780.65; Third iteration: 4627.37
+}
+
+/** 
+ * Helper method for degrees to radian used in calculateDistance
+ */
+double Flights::degToRad(double deg) {
+  return (deg * M_PI / 180);
+}
+
+/** 
+ * Helper method for radian to degrees used in calculateDistance
+ */
+double Flights::radToDeg(double rad) {
+  return (rad * 180 / M_PI);
 }

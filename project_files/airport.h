@@ -25,7 +25,6 @@ class Flights
      */
     Flights();
 
-
     /**
      * Function to read longitude/latitude data from flights dataset.
      */
@@ -37,14 +36,37 @@ class Flights
     vector<string> readFlights(const string &filename);
 
     /**
-     * Function to calculate dist between airports.
-     * @param latitude latitude of the airport
-     * @param longitide longitude of the airport
+     * Helper function to convert a string into a double.
+     * Tested that this works for negative numbers too.
+     * @param string 
+     * @return double
+     */
+    double stringToDouble(string str);
+
+    /**
+     * Function to calculate distance between airports. Computes using Haversine formula using latitude and longitudes.
+     * @param latitude latitude of the airport in degrees.
+     * @param longitide longitude of the airport in degrees.
      * @return The distcance between airports.
      */
-    double calculateDist(const double latitude, const double longitude);
+    // double calculateDist(const double latitude, const double longitude);
+    double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg);
 
-    double stringToDouble(string str);
+    /** 
+     * Helper method to convert degrees to radian used in calculateDistance
+     */
+    double degToRad(double deg);
+
+    /**
+     *  Helper method to convert radian to degrees used in calculateDistance
+     */
+    double radToDeg(double rad);
+
+
+
+
+
+
     private:
         Graph g;
         vector<vector<string>> list;
