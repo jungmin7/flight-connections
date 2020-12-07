@@ -79,7 +79,7 @@ int main()
     Flights air;
     //cout << air.stringToDouble("-45.040");
     //air.readFlights("routes_test.txt");
-    air.readAirports("airports_test.txt");
+    map<string, pair<double, double>> mainTest = air.readAirports("airports_test.txt");
     return 0;
     
     

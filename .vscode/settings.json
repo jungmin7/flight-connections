@@ -4,6 +4,7 @@
         "__locale": "cpp",
         "ios": "cpp",
         "iosfwd": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "ostream": "cpp"
     }
 }
