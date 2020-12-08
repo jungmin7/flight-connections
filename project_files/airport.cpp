@@ -25,16 +25,23 @@ using std::stringstream;
 #include <stdlib.h>
 using namespace std;
 
-Flights::Flights(const string &airport_data, const string &routes_data) : g(true, true)
+/**
+ * Constructor for Flights
+ * 
+ * @param string for routes and airport data files respectively
+ */
+Flights::Flights(const string &routes_data, const string &airport_data) : g(true, true)
 {
-    readFlights(airport_data, routes_data);
+    readFlights(routes_data, airport_data);
+
+    //DELETE AFTER TESTING, DEBUGGING, ETC...
     g.print();
 }
 
 /**
  * readFlights function.
  * 
- * @param data file
+ * @param map of data file
  * @return vector<string>
  */
 map<string, pair<double, double>> Flights::readAirports(const string &filename) {
@@ -58,6 +65,7 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
         }
     }
 
+    //Start of processing file
     for(unsigned i = 0; i < out.size(); i++) { //traverses line by line.
         string str = out[i];
         int count = 0;
@@ -109,6 +117,8 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
  * @return vector<string>
  */
 void Flights::readFlights(const string &filename1, const string &filename2) {
+
+    //opening and reading file
     ifstream file;
     file.open(filename1);
     vector<string> out;
@@ -119,11 +129,11 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
         string line;
         while (!file.eof()) {
             getline(file, line);
-            //cout << line << endl; //ok so i think getline modifies the line var itself??
             out.push_back(line);
         }
     }
 
+    //start of processing file
     map<string, pair<double, double>> airport = readAirports(filename2);
     string firstAirport;
     string secondAirport;
@@ -133,17 +143,28 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
         for(unsigned j = 0; j < str.length(); j++) { //traverses each line.
             if(str.at(j) == ',') {
                 count++;
-                if (count == 2) {
+                if (count == 2) { //if we see the 2nd comma, the next 3 letter word is the source airport code
                     firstAirport = str.substr(j + 1, 3);
                 }
-                if (count == 4) {
+                if (count == 4) { //if we see the 4th comma, the next 3 letter word is the destination airport code
                     secondAirport = str.substr(j + 1, 3);
                 }
             }
         }
+        //creates edge between the two airports
         g.insertEdge(firstAirport, secondAirport);
+
+        //setting edge label as firstAiport->secondAirport
+        string symbol = "->";
+        string label = firstAirport + symbol + secondAirport;
+        g.setEdgeLabel(firstAirport, secondAirport, label);
+
+        //calculating distance using haversine method
         double dist = distanceHaversine(airport[firstAirport].first, airport[firstAirport].second, airport[secondAirport].first, airport[secondAirport].second);
+
+        //sets the edge weight as the distance
         g.setEdgeWeight(firstAirport, secondAirport, dist);
+        
         
     }
 }
@@ -162,8 +183,8 @@ double Flights::stringToDouble(string str) {
 /**
  * Returns the distance between two points on the Earth using Haversine Formula.
  * https://www.movable-type.co.uk/scripts/latlong.html
- * Parameters all in degrees.
- * Returns distance between two points in kilometers.
+ * @param double latitude and longitude values for the source and destination airport
+ * @return distance between two points in kilometers.
  */
 double Flights::distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg) {
 
@@ -174,7 +195,6 @@ double Flights::distanceHaversine(double lat1_deg, double lon1_deg, double lat2_
 
     double latDiff = sin((lat2_rad - lat1_rad) / 2);
     double lonDiff = sin((lon2_rad - lon1_rad) / 2);
-    cout << latDiff << " " << lonDiff << endl;
     double a = latDiff * latDiff   +   cos(lat1_rad) * cos(lat2_rad) * lonDiff * lonDiff;
     double earthRadius = 6371.0; //in KILOMETERS. https://en.wikipedia.org/wiki/Earth
     return 2.0 * earthRadius * asin(sqrt(a));

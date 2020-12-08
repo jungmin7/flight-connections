@@ -1,18 +1,14 @@
 #pragma once
 #include "graph.h"
-
+#include "edge.h"
 
 #include <string>
 #include <vector>
-
 #include <map>
-
-using namespace std;
-#include <utility> // for pair
+#include <utility>
 #include <cmath>
-#include "edge.h"
-
 #include <stdlib.h>
+
 using namespace std;
 
 class Flights
@@ -60,7 +56,6 @@ class Flights
      */
     double radToDeg(double rad);
 
-
     /**
      * Function to find the shortest path using Dijkstra's algorithm
      * @param src the departure airport
@@ -70,13 +65,6 @@ class Flights
     int shortestPath(Vertex src, Vertex dest);
 
 
-
     private:
         Graph g;
-        vector<vector<string>> list;
-
-        // vector<string> code;
-        // map<string, double> latitude;
-        // map<string, double> longitude;
-
 };
