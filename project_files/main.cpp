@@ -73,6 +73,40 @@ double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, doub
 
 }
 
+double shortestPath(Vertex src, Vertex dest, Graph g)
+{
+  queue<Vertex> queue;
+  map<Vertex,double> dist;
+  map<Vertex,string> pred;
+
+  for (auto vertices : g.getVertices()) {
+      dist[vertices] = numeric_limits<double>::infinity();
+  }
+  dist[src] = 0.0;
+
+  queue.push(src);
+
+  while (!queue.empty()) {
+      Vertex curr = queue.front();
+      queue.pop();
+
+      vector<Vertex> adj = g.getAdjacent(curr);
+      for (auto it = adj.begin(); it != adj.end(); it++) {
+        int distfromCurr = g.getEdgeWeight(curr,(*it));
+        
+        cout << "curr: " << curr << ", " << "curr's adjacent: " << (*it) << " dist: " << dist[curr] + distfromCurr << endl; 
+
+        if (dist[curr] + distfromCurr < dist[*it]) {
+          dist[*it] = distfromCurr + dist[curr];
+          pred[*it] = curr;
+          queue.push(*it);
+        }
+      }
+  }
+  return dist[dest];
+
+}
+
 
 int main()
 {   
@@ -108,17 +142,33 @@ int main()
     // cout << "exp: " << SINtoICNDistance << " obs: " << shortestPath("SIN","ICN",g1) << endl;
 
 
-    /**
+    
     //testing shortest path using Flights class
     myMap["ASF"] = pair<double,double>(46.2832984924,48.0063018799);
     myMap["KZN"] = pair<double, double>(55.606201171875,49.278701782227);
 
-    Flights air("routes_test.txt","airports_test.txt");
-    double exp_dist = air.distanceHaversine(myMap["ASF"].first,myMap["ASF"].second,myMap["KZN"].first,myMap["KZN"].second);
+    // Flights air("routes_test.txt","airports_test.txt");
+    // double exp_dist = air.distanceHaversine(myMap["ASF"].first,myMap["ASF"].second,myMap["KZN"].first,myMap["KZN"].second);
 
-    int obs_dist = air.shortestPath("ASF","KZN");
-    cout << "exp " << exp_dist << "obs " << obs_dist << endl; 
-    */
+
+    Graph g2 = Graph(true, true);
+
+    g2.insertEdge("ICN", "SIN");
+    g2.insertEdge("SIN", "HKG");
+    g2.insertEdge("HKG", "ORD");
+    g2.insertEdge("ICN", "ORD");
+
+    g2.setEdgeWeight("ICN", "SIN",1);
+    g2.setEdgeWeight("SIN", "HKG",3);
+    g2.setEdgeWeight("HKG", "ORD",2); 
+    g2.setEdgeWeight("ICN", "ORD",10);
+
+
+
+
+    double obs_dist = shortestPath("ICN","ORD",g2);
+    cout << "direct " << 10 << "obs " << obs_dist << endl; 
+    
 
     // g1.print();
 
