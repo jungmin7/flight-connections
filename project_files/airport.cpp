@@ -143,8 +143,8 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
 
     //start of processing file
     map<string, pair<double, double>> airport = readAirports(filename2);
-    string firstAirport;
-    string secondAirport;
+    Vertex firstAirport;
+    Vertex secondAirport;
     for(unsigned i = 0; i < out.size(); i++) { //traverses line by line.
         string str = out[i];
         int count = 0;
@@ -161,8 +161,12 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
         }
 
         /** Fixed an error on 12/09 */
-        g.insertVertex(firstAirport);
-        g.insertVertex(secondAirport);
+        if (!g.vertexExists(firstAirport)) {
+            g.insertVertex(firstAirport);
+        }
+        if (!g.vertexExists(secondAirport)) {
+            g.insertVertex(secondAirport);
+        }
 
         //creates edge between the two airports
         g.insertEdge(firstAirport, secondAirport);
@@ -263,4 +267,51 @@ double Flights::shortestPath(Vertex src, Vertex dest)
     }
     return dist[dest];
 
+}
+
+vector<Vertex> Flights::BFS(Vertex start) {
+
+    /** Vector to be returned that contains vertices that were visited in order */
+    vector<Vertex> outputBFS;
+
+    int numVertices = g.getVertices().size();
+    cout << "numVertices: " << numVertices << endl;
+    /** Returns a vector containing all the vertices in our Graph, g */
+    vector<Vertex> vertices = g.getVertices();
+
+    /** Map that represents whether an airport was visited. */
+    map<Vertex, bool> visited;
+    visited[start] = false;
+
+    /** Mark all vertices in visited Map as false. */
+    for (auto v: vertices) {
+        // cout << "testing vertices in map: " << v << endl;
+        visited[v] = false;
+    }
+
+    /** Create queue */
+    queue<Vertex> queue;
+
+    // Marks start Airport as visited; adds to queue.
+    visited[start] = true;
+    queue.push(start);
+    
+    Vertex temp;
+    cout << "BFS starting at Airport " << start << ":" << endl;
+    while (!queue.empty()) {
+        temp = queue.front(); // Gets airport at front of queue.
+        queue.pop(); // Pops the airport from the queue.
+        cout << temp << endl; //print the visited vertex.
+        outputBFS.push_back(temp); //add the visited vertex to the output vector.
+
+        vector<Vertex> adjacentVertices = g.getAdjacent(temp); //get all adjacentVertices.
+        for (auto a: adjacentVertices) {
+            if (visited[a] == false) {
+                visited[a] = true;
+                queue.push(a);
+            }
+        }
+    }
+    
+    return outputBFS;
 }

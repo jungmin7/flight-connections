@@ -78,8 +78,8 @@ int main()
 {   
     
     Flights air("routes_test.txt", "airports_test.txt");
-    //air.g.print();
-   // air.BFS("AER");
+    // air.g.print();
+    air.BFS("AER");
     //cout << air.stringToDouble("-45.040");
     //air.readFlights("routes_test.txt");
 
