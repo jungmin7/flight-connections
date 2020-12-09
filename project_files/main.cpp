@@ -77,7 +77,9 @@ double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, doub
 int main()
 {   
     
-    //Flights air;
+    Flights air("routes_test.txt", "airports_test.txt");
+    //air.g.print();
+   // air.BFS("AER");
     //cout << air.stringToDouble("-45.040");
     //air.readFlights("routes_test.txt");
 
