@@ -52,7 +52,7 @@ TEST_CASE("test_shortestPath", "")
 {
     Flights air("routes_test.txt","airports_test.txt");
     double path = air.shortestPath("EGO","KGD");
-    double path_result = air.distanceHaversine(50.643798828125,36.5900993347168,54.88999938964844,20.592599868774414);
+    int path_result = (int)air.distanceHaversine(50.643798828125,36.5900993347168,54.88999938964844,20.592599868774414);
     REQUIRE(path == path_result);
 
 }
