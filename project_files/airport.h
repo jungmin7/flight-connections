@@ -56,7 +56,7 @@ class Flights
      */
     double radToDeg(double rad);
 
-    //vector<Vertex> BFS(Vertex start);
+    vector<Vertex> BFS(Vertex start);
 
     /**
      * Function to find the shortest path using Dijkstra's algorithm
