@@ -347,6 +347,7 @@ Graph Flights::getReverse()
 double Flights::shortestPath(Vertex src, Vertex dest)
 {
     typedef pair<double, Vertex> dist_pair;
+
     priority_queue<dist_pair, vector<dist_pair>, greater<dist_pair>> pq;
     map<Vertex,double> dist;
     map<Vertex,Vertex> pred;
@@ -371,6 +372,8 @@ double Flights::shortestPath(Vertex src, Vertex dest)
             if (dist[curr] + distfromCurr < dist[(*it)]) {
                 dist[(*it)] = dist[curr] + distfromCurr;
                 pred[(*it)] = curr;
+                pq.push(make_pair(dist[*it],curr));
+                
             }
         }
     }

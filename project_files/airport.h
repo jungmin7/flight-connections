@@ -53,6 +53,15 @@ class Flights
     /*Comment here about functionality*/
     vector<Vertex> BFS(Vertex start);
 
+    /**
+     * Function to calculate distance between airports. Computes using Haversine formula using latitude and longitudes.
+     * @param latitude latitude of the airport in degrees.
+     * @param longitide longitude of the airport in degrees.
+     * @return The distcance between airports.
+     */
+    // double calculateDist(const double latitude, const double longitude);
+    double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg);
+
     private:
         Graph g;
 
@@ -81,14 +90,6 @@ class Flights
      */
     double stringToDouble(string str);
 
-    /**
-     * Function to calculate distance between airports. Computes using Haversine formula using latitude and longitudes.
-     * @param latitude latitude of the airport in degrees.
-     * @param longitide longitude of the airport in degrees.
-     * @return The distcance between airports.
-     */
-    // double calculateDist(const double latitude, const double longitude);
-    double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg);
 
     /** 
      * Helper method to convert degrees to radian used in calculateDistance

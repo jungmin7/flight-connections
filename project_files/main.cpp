@@ -73,6 +73,8 @@ double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, doub
 
 }
 
+
+
 double shortestPath(Vertex src, Vertex dest, Graph g)
 {
   queue<Vertex> queue;
@@ -80,32 +82,33 @@ double shortestPath(Vertex src, Vertex dest, Graph g)
   map<Vertex,string> pred;
 
   for (auto vertices : g.getVertices()) {
+    if (vertices.compare(src)) {
       dist[vertices] = numeric_limits<double>::infinity();
+      pred[vertices] = "NONE";
+    }
+    queue.push(vertices);
   }
-  dist[src] = 0.0;
-
-  queue.push(src);
+  dist[src] = 4;
 
   while (!queue.empty()) {
-      Vertex curr = queue.front();
-      queue.pop();
-
-      vector<Vertex> adj = g.getAdjacent(curr);
-      for (auto it = adj.begin(); it != adj.end(); it++) {
-        int distfromCurr = g.getEdgeWeight(curr,(*it));
-        
-        cout << "curr: " << curr << ", " << "curr's adjacent: " << (*it) << " dist: " << dist[curr] + distfromCurr << endl; 
-
-        if (dist[curr] + distfromCurr < dist[*it]) {
-          dist[*it] = distfromCurr + dist[curr];
-          pred[*it] = curr;
-          queue.push(*it);
-        }
+    Vertex curr = queue.front();
+    vector<Vertex> adj = g.getAdjacent(curr);
+    for (auto it = adj.begin(); it != adj.end(); it++) {
+      int distfromCurr = g.getEdgeWeight(curr,(*it));
+      if (dist[curr] + distfromCurr < dist[*it]) {
+        dist[*it] = distfromCurr + dist[curr];
+        pred[*it] = curr;
+        cout << curr << "," << pred[*it] << endl;
       }
+    }
+    queue.pop();
   }
+  cout << dist[dest] << dest << endl;
   return dist[dest];
 
 }
+// cout << "curr: " << curr << ", " << "curr's adjacent: " << (*it) << " dist: " << dist[curr] + distfromCurr << endl; 
+
 
 
 int main()
@@ -149,8 +152,8 @@ int main()
     myMap["ASF"] = pair<double,double>(46.2832984924,48.0063018799);
     myMap["KZN"] = pair<double, double>(55.606201171875,49.278701782227);
 
-    // Flights air("routes_test.txt","airports_test.txt");
-    // double exp_dist = air.distanceHaversine(myMap["ASF"].first,myMap["ASF"].second,myMap["KZN"].first,myMap["KZN"].second);
+    Flights air("routes_test.txt","airports_test.txt");
+    double exp_dist = distanceHaversine(myMap["ASF"].first,myMap["ASF"].second,myMap["KZN"].first,myMap["KZN"].second);
 
 
     Graph g2 = Graph(true, true);
@@ -163,13 +166,14 @@ int main()
     g2.setEdgeWeight("ICN", "SIN",1);
     g2.setEdgeWeight("SIN", "HKG",3);
     g2.setEdgeWeight("HKG", "ORD",2); 
-    g2.setEdgeWeight("ICN", "ORD",10);
+    g2.setEdgeWeight("ICN", "ORD",4);
 
 
 
 
-    double obs_dist = shortestPath("ICN","ORD",g2);
-    cout << "direct " << 10 << "obs " << obs_dist << endl; 
+    // double obs_dist = shortestPath("ICN","ORD",g2);
+    double obs_dist = shortestPath("ASF","KZN",g2);
+    cout << obs_dist << endl; 
     
 
     // g1.print();
