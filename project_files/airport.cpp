@@ -46,7 +46,8 @@ Flights::Flights(const string &routes_data, const string &airport_data) : g(true
  * @param map of data file
  * @return vector<string>
  */
-map<string, pair<double, double>> Flights::readAirports(const string &filename) {
+map<string, pair<double, double>> Flights::readAirports(const string &filename)
+{
     //Main variable to return
     //Contains all the airport data with coords
     map<string, pair<double, double>> coordinateMap;
@@ -112,9 +113,8 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
             coordinateMap[airport] = pair<double, double>(latitude, longitude);
         }
 
-	    return coordinateMap; //return the map of strings to pairs.
-
     }
+    return coordinateMap; //return the map of strings to pairs.
 }
 
 
