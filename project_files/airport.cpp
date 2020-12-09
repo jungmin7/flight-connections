@@ -355,7 +355,7 @@ double Flights::shortestPath(Vertex src, Vertex dest)
     vector<Vertex> vertex_list = g.getVertices();
     for (size_t i = 0; i < vertex_list.size(); i++) {
         if (vertex_list[i]!=src) {
-            pq.push(make_pair(numeric_limits<double>::infinity(),vertex_list[i]));
+            // pq.push(make_pair(numeric_limits<double>::infinity(),vertex_list[i]));
             dist[vertex_list[i]] = numeric_limits<double>::infinity();
             pred[vertex_list[i]] = "NONE";
         }
@@ -368,13 +368,16 @@ double Flights::shortestPath(Vertex src, Vertex dest)
         pq.pop();
 
         for (auto it = g.getAdjacent(curr).begin(); it != g.getAdjacent(curr).end(); it++) {
-            double distfromCurr = g.getEdgeWeight(curr,(*it));
-            if (dist[curr] + distfromCurr < dist[(*it)]) {
-                dist[(*it)] = dist[curr] + distfromCurr;
-                pred[(*it)] = curr;
-                pq.push(make_pair(dist[*it],curr));
-                
+            if (g.edgeExists(curr,(*it))) {
+                double distfromCurr = g.getEdgeWeight(curr,(*it));
+                if (dist[curr] + distfromCurr < dist[(*it)]) {
+                    dist[(*it)] = dist[curr] + distfromCurr;
+                    pred[(*it)] = curr;
+                    pq.push(make_pair(dist[*it],curr));
+                    
+                }
             }
+            
         }
     }
     return dist[dest];
