@@ -11,6 +11,7 @@
 #include <queue>
 #include <map>
 #include <limits>
+#include <stack>
 
 using std::string;
 using std::map;
@@ -35,7 +36,7 @@ Flights::Flights(const string &routes_data, const string &airport_data) : g(true
     readFlights(routes_data, airport_data);
 
     //DELETE AFTER TESTING, DEBUGGING, ETC...
-    g.print();
+    //g.print();
 }
 
 /**
@@ -135,8 +136,8 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
 
     //start of processing file
     map<string, pair<double, double>> airport = readAirports(filename2);
-    string firstAirport;
-    string secondAirport;
+    Vertex firstAirport;
+    Vertex secondAirport;
     for(unsigned i = 0; i < out.size(); i++) { //traverses line by line.
         string str = out[i];
         int count = 0;
@@ -151,6 +152,13 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
                 }
             }
         }
+
+        //make vertices
+        if(!g.vertexExists(firstAirport))
+            g.insertVertex(firstAirport);
+        if(!g.vertexExists(secondAirport))
+            g.insertVertex(secondAirport);
+
         //creates edge between the two airports
         g.insertEdge(firstAirport, secondAirport);
 
@@ -164,8 +172,6 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
 
         //sets the edge weight as the distance
         g.setEdgeWeight(firstAirport, secondAirport, dist);
-        
-        
     }
 }
 
@@ -218,37 +224,112 @@ double Flights::radToDeg(double rad) {
   return (rad * 180 / M_PI);
 }
 
-
-int Flights::shortestPath(Vertex src, Vertex dest)
+/**
+* Function to find strngly connected sets of airports (components)
+* @return
+*/
+void Flights::stronglyConnected()
 {
-    queue<Vertex> queue;
-    map<Vertex,int> dist;
-    map<Vertex,string> pred;
+    //REPLACE WITH DFS ALGORITHM
+    vector<Vertex> list = g.getVertices();
 
-    for (auto vertices : g.getVertices()) {
-        dist[vertices] = numeric_limits<double>::infinity();
-        // pred[vertices] = NULL;
+    //start of strongly connected algorithm
+    stack<Vertex> stack;
+    map<Vertex, bool> visited;
+
+    for(Vertex vertex : list)
+    {
+        visited[vertex] = false;
     }
-    dist[src] = 0;
 
-    queue.push(src);
-
-    while (!queue.empty()) {
-        Vertex curr = queue.front();
-        queue.pop();
-
-        vector<Vertex> adj = g.getAdjacent(curr);
-        for (auto it = adj.begin(); it != adj.end(); it++) {
-            int distance = g.getEdgeWeight(src,(*it)); 
-            if (distance + dist[curr] < dist[*it]) {
-                dist[*it] = distance + dist[curr];
-                pred[*it] = curr;
-            }
+    for(Vertex vertex : list)
+    {
+        if(visited[vertex])
+        {
+            continue;
         }
+        DFS(vertex, visited, stack);
     }
 
-    return dist[dest];
+    Graph reverse(true, true);
+    reverse = getReverse();
+    Graph temp2(true, true);
+    temp2 = g;
+    g = reverse;
 
+    for(Vertex v : list)
+    {
+        visited[v] = false;
+    }
+
+    vector<vector<Vertex>> result;
+
+    while(!stack.empty())
+    {
+        Vertex vertex = stack.top();
+        stack.pop();
+        if(visited[vertex])
+        {
+            continue;
+        }
+        vector<Vertex> set;
+        DFS(vertex, visited, set);
+        result.push_back(set);
+    }
+
+    cout << "Strongly connected components are as follows:" << endl; 
+    for(unsigned i = 0; i < result.size(); i++)
+    {
+        cout << i+1 << ")" << " ";
+        for(unsigned j = 0; j < result[i].size(); j++)
+        {
+            cout << result[i][j] <<  " ";
+        }
+        cout << "" << endl;
+    }
+    g = temp2;
 }
 
+void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, stack<Vertex> &stack)
+{
+    visited[vertex] = true;
+    for(Vertex v : g.getAdjacent(vertex))
+    {
+        if(visited[v])
+        {
+            continue;
+        }
+        DFS(v, visited, stack);
+    }
+    stack.push(vertex);
+}
 
+void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, vector<Vertex> &set)
+{
+    visited[vertex] = true;
+    set.push_back(vertex);
+    for(Vertex v : g.getAdjacent(vertex))
+    {
+        if(visited[v])
+        {
+            continue;
+        }
+        DFS(v, visited, set);
+    }
+}
+
+Graph Flights::getReverse()
+{
+    Graph reverse(true, true);
+    vector<Vertex> vertices = g.getVertices();
+    for(unsigned i = 0; i < vertices.size(); i++)
+    {
+        for(Vertex each : g.getAdjacent(vertices[i]))
+        {
+            reverse.insertEdge(each, vertices[i]);
+            reverse.setEdgeWeight(each, vertices[i], g.getEdgeWeight(vertices[i], each));
+            reverse.setEdgeLabel(each, vertices[i], g.getEdgeLabel(vertices[i], each));
+        }
+    }
+    return reverse;
+}

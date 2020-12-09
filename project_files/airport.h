@@ -8,6 +8,7 @@
 #include <utility>
 #include <cmath>
 #include <stdlib.h>
+#include <stack>
 
 using namespace std;
 
@@ -28,6 +29,38 @@ class Flights
      * Function to read data from flight paths data set.
      */
     void readFlights(const string &, const string &);
+
+    /**
+    * Function to find strngly connected sets of airports (components)
+    * @return components
+    */
+    void stronglyConnected();
+
+    /**
+    * Function to reverse graph
+    * @return reversed graph
+    */
+    Graph getReverse();
+
+    private:
+        Graph g;
+
+
+    /*
+    *   Helper fuctions
+    */
+
+    /**
+     * Helper function perform DFS on graph
+     * @param vertex, visited map, and stack with vertices
+     */
+    void DFS(Vertex vertex, map<Vertex, bool> &visited, stack<Vertex> &stack);
+
+    /**
+     * Helper function perform DFS on reversed graph
+     * @param vertex, visited map, and set to add all the connected components
+     */
+    void DFS(Vertex vertex, map<Vertex, bool> &visited, vector<Vertex> &set);
 
     /**
      * Helper function to convert a string into a double.
@@ -55,16 +88,4 @@ class Flights
      *  Helper method to convert radian to degrees used in calculateDistance
      */
     double radToDeg(double rad);
-
-    /**
-     * Function to find the shortest path using Dijkstra's algorithm
-     * @param src the departure airport
-     * @param dest the arrival airport
-     * @return the shortest distance path between two airports
-     */
-    int shortestPath(Vertex src, Vertex dest);
-
-
-    private:
-        Graph g;
 };
