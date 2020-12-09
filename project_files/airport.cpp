@@ -114,6 +114,7 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
 
 	    return coordinateMap; //return the map of strings to pairs.
 
+    }
 }
 
 
