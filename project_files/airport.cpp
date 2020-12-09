@@ -335,6 +335,7 @@ Graph Flights::getReverse()
         }
     }
     return reverse;
+}
   
 vector<Vertex> Flights::BFS(Vertex start) {
 
