@@ -35,8 +35,6 @@ Flights::Flights(const string &routes_data, const string &airport_data) : g(true
 
     //DELETE AFTER TESTING, DEBUGGING, ETC...
     g.print();
-
-
 }
 
 /**
@@ -346,77 +344,37 @@ Graph Flights::getReverse()
 
 double Flights::shortestPath(Vertex src, Vertex dest)
 {
-    typedef pair<double, Vertex> dist_pair;
-
-    priority_queue<dist_pair, vector<dist_pair>, greater<dist_pair>> pq;
-    map<Vertex,double> dist;
-    map<Vertex,Vertex> pred;
-
-    vector<Vertex> vertex_list = g.getVertices();
-    for (size_t i = 0; i < vertex_list.size(); i++) {
-        if (vertex_list[i]!=src) {
-            // pq.push(make_pair(numeric_limits<double>::infinity(),vertex_list[i]));
-            dist[vertex_list[i]] = numeric_limits<double>::infinity();
-            pred[vertex_list[i]] = "NONE";
-        }
-    }
-    pq.push(make_pair(0.0,src));
-    dist[src] = 0.0;
-
-    while(!pq.empty()) {
-        Vertex curr = pq.top().second; // vertex
-        pq.pop();
-
-        for (auto it = g.getAdjacent(curr).begin(); it != g.getAdjacent(curr).end(); it++) {
-            if (g.edgeExists(curr,(*it))) {
-                double distfromCurr = g.getEdgeWeight(curr,(*it));
-                if (dist[curr] + distfromCurr < dist[(*it)]) {
-                    dist[(*it)] = dist[curr] + distfromCurr;
-                    pred[(*it)] = curr;
-                    pq.push(make_pair(dist[*it],curr));
-                    
-                }
-            }
-            
-        }
-    }
-    return dist[dest];
-
-
-    /**
     queue<Vertex> queue;
-    // map<Vertex,double> dist;
+    map<Vertex,double> dist;
     map<Vertex,string> pred;
-
-    queue.push(src);
 
     for (auto vertices : g.getVertices()) {
         dist[vertices] = numeric_limits<double>::infinity();
-        pred[vertices] = "NONE";
-        if (vertices!=src) {
-            queue.push(vertices);
-        }
-        
     }
     dist[src] = 0.0;
+
+    queue.push(src);
 
 
     while (!queue.empty()) {
         Vertex curr = queue.front();
+        queue.pop();
+
+        int distfromCurr = -1;
         vector<Vertex> adj = g.getAdjacent(curr);
         for (auto it = adj.begin(); it != adj.end(); it++) {
-            double distfromCurr = g.getEdgeWeight(curr,(*it));
-
-            cout << "src: " << src << ", " << "curr's adjacent: " << (*it) << " dist: " << distfromCurr << endl; 
-
-            if (dist[curr] + distfromCurr < dist[*it]) {
-                dist[*it] = distfromCurr + dist[curr];
-                pred[*it] = curr;
+            if(g.edgeExists(curr, (*it)))
+            {
+                distfromCurr = g.getEdgeWeight(curr,(*it));
+            
+                if (dist[curr] + distfromCurr < dist[*it]) {
+                    dist[*it] = distfromCurr + dist[curr];
+                    pred[*it] = curr;
+                    queue.push(*it);
+                }
             }
         }
-        queue.pop();
     }
-    */
 }
 
 vector<Vertex> Flights::BFS(Vertex start)
