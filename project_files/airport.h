@@ -41,6 +41,14 @@ class Flights
     * @return reversed graph
     */
     Graph getReverse();
+
+    /**
+     * Function to find the shortest path using Dijkstra's algorithm
+     * @param src the departure airport
+     * @param dest the arrival airport
+     * @return the shortest distance path between two airports
+     */
+    double shortestPath(Vertex src, Vertex dest);
   
     /*Comment here about functionality*/
     vector<Vertex> BFS(Vertex start);

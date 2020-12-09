@@ -11,7 +11,6 @@
 #include <queue>
 #include <map>
 #include <limits>
-#include <stack>
 
 using std::string;
 using std::map;
@@ -34,6 +33,11 @@ using namespace std;
 Flights::Flights(const string &routes_data, const string &airport_data) : g(true, true)
 {
     readFlights(routes_data, airport_data);
+
+    //DELETE AFTER TESTING, DEBUGGING, ETC...
+    g.print();
+
+
 }
 
 /**
@@ -155,6 +159,7 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
                 }
             }
         }
+
         /** Fixed an error on 12/09 */
         if (!g.vertexExists(firstAirport)) {
             g.insertVertex(firstAirport);
@@ -176,6 +181,8 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
 
         //sets the edge weight as the distance
         g.setEdgeWeight(firstAirport, secondAirport, dist);
+        
+        
     }
 }
 
@@ -245,7 +252,6 @@ void Flights::stronglyConnected()
         visited[vertex] = false;
     }
 
-<<<<<<< Updated upstream
     for(Vertex vertex : list)
     {
         if(visited[vertex])
@@ -254,10 +260,6 @@ void Flights::stronglyConnected()
         }
         DFS(vertex, visited, stack);
     }
-=======
-    queue.push(src);
-    
->>>>>>> Stashed changes
 
     Graph reverse(true, true);
     reverse = getReverse();
@@ -341,7 +343,43 @@ Graph Flights::getReverse()
     }
     return reverse;
 }
-  
+
+
+double Flights::shortestPath(Vertex src, Vertex dest)
+{
+    queue<Vertex> queue;
+    map<Vertex,double> dist;
+    map<Vertex,string> pred;
+
+    for (auto vertices : g.getVertices()) {
+        dist[vertices] = numeric_limits<double>::infinity();
+    }
+    dist[src] = 0.0;
+
+    queue.push(src);
+    
+
+    while (!queue.empty()) {
+        Vertex curr = queue.front();
+        queue.pop();
+
+        vector<Vertex> adj = g.getAdjacent(curr);
+        for (auto it = adj.begin(); it != adj.end(); it++) {
+            int distfromCurr = g.getEdgeWeight(curr,(*it));
+            
+            cout << "src: " << src << ", " << "curr's adjacent: " << (*it) << " dist: " << distfromCurr << endl; 
+
+            if (dist[curr] + distfromCurr < dist[*it]) {
+                dist[*it] = distfromCurr + dist[curr];
+                pred[*it] = curr;
+                queue.push(*it);
+            }
+        }
+    }
+    return dist[dest];
+
+}
+
 vector<Vertex> Flights::BFS(Vertex start) {
 
     /** Vector to be returned that contains vertices that were visited in order */
