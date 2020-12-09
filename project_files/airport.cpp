@@ -375,6 +375,8 @@ double Flights::shortestPath(Vertex src, Vertex dest)
             }
         }
     }
+
+    return dist[dest];
 }
 
 vector<Vertex> Flights::BFS(Vertex start)
