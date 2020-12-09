@@ -245,6 +245,7 @@ void Flights::stronglyConnected()
         visited[vertex] = false;
     }
 
+<<<<<<< Updated upstream
     for(Vertex vertex : list)
     {
         if(visited[vertex])
@@ -253,6 +254,10 @@ void Flights::stronglyConnected()
         }
         DFS(vertex, visited, stack);
     }
+=======
+    queue.push(src);
+    
+>>>>>>> Stashed changes
 
     Graph reverse(true, true);
     reverse = getReverse();
