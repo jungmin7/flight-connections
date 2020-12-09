@@ -62,7 +62,7 @@ class Flights
      * @param dest the arrival airport
      * @return the shortest distance path between two airports
      */
-    int shortestPath(Vertex src, Vertex dest);
+    double shortestPath(Vertex src, Vertex dest);
 
 
     private:

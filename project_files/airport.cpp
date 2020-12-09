@@ -36,6 +36,8 @@ Flights::Flights(const string &routes_data, const string &airport_data) : g(true
 
     //DELETE AFTER TESTING, DEBUGGING, ETC...
     g.print();
+
+
 }
 
 /**
@@ -99,6 +101,8 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
         //convert strings to doubles; works for negative too.
         double latitude = stringToDouble(latitude_str);
         double longitude = stringToDouble(longitude_str);
+
+        // cout << airport <<" " << latitude_str << " " << longitude_str << endl;
             
         //enter inside map (ex: myMap["SIN"] = pair<double, double>(1.35019, 103.994003);)
         coordinateMap[airport] = pair<double, double>(latitude, longitude);
@@ -151,6 +155,7 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
                 }
             }
         }
+
         //creates edge between the two airports
         g.insertEdge(firstAirport, secondAirport);
 
@@ -219,17 +224,16 @@ double Flights::radToDeg(double rad) {
 }
 
 
-int Flights::shortestPath(Vertex src, Vertex dest)
+double Flights::shortestPath(Vertex src, Vertex dest)
 {
     queue<Vertex> queue;
-    map<Vertex,int> dist;
+    map<Vertex,double> dist;
     map<Vertex,string> pred;
 
     for (auto vertices : g.getVertices()) {
         dist[vertices] = numeric_limits<double>::infinity();
-        // pred[vertices] = NULL;
     }
-    dist[src] = 0;
+    dist[src] = 0.0;
 
     queue.push(src);
 
@@ -239,14 +243,17 @@ int Flights::shortestPath(Vertex src, Vertex dest)
 
         vector<Vertex> adj = g.getAdjacent(curr);
         for (auto it = adj.begin(); it != adj.end(); it++) {
-            int distance = g.getEdgeWeight(src,(*it)); 
-            if (distance + dist[curr] < dist[*it]) {
-                dist[*it] = distance + dist[curr];
+            int distfromCurr = g.getEdgeWeight(curr,(*it));
+            
+            cout << "src: " << src << ", " << "curr's adjacent: " << (*it) << " dist: " << distfromCurr << endl; 
+
+            if (dist[curr] + distfromCurr < dist[*it]) {
+                dist[*it] = distfromCurr + dist[curr];
                 pred[*it] = curr;
+                queue.push(*it);
             }
         }
     }
-
     return dist[dest];
 
 }
