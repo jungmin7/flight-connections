@@ -81,7 +81,7 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename)
         for (unsigned j = 0; j < str.length(); j++) { //traverses each line to find indexes of commas.
             if(str.at(j) == ',' && count <= 8) { //up until 8th comma because information after that is irrelevant.
                 count++;
-                if (count == 4 || count == 6 || count == 7 || count == 8) {
+                if (count == 4 || count == 6 || count == 7 || count == 8 || count == 5) {
                     if (count == 4) {
                         fourthCommaIndex = j;
                     } else if (count == 6) {
@@ -114,6 +114,10 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename)
         }
 
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2503224a65393e01a25717f0a7dd1ad686e631a2
     return coordinateMap; //return the map of strings to pairs.
 }
 
@@ -159,6 +163,10 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
                 }
             }
         }
+
+        /** Fixed an error on 12/09 */
+        g.insertVertex(firstAirport);
+        g.insertVertex(secondAirport);
 
         //creates edge between the two airports
         g.insertEdge(firstAirport, secondAirport);
@@ -227,7 +235,6 @@ double Flights::radToDeg(double rad) {
   return (rad * 180 / M_PI);
 }
 
-
 double Flights::shortestPath(Vertex src, Vertex dest)
 {
     queue<Vertex> queue;
@@ -261,5 +268,3 @@ double Flights::shortestPath(Vertex src, Vertex dest)
     return dist[dest];
 
 }
-
-

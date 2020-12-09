@@ -111,7 +111,9 @@ double shortestPath(Vertex src, Vertex dest, Graph g)
 int main()
 {   
     
-    //Flights air;
+    Flights air("routes_test.txt", "airports_test.txt");
+    //air.g.print();
+   // air.BFS("AER");
     //cout << air.stringToDouble("-45.040");
     //air.readFlights("routes_test.txt");
 
