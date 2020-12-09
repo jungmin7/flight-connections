@@ -111,10 +111,8 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
             //enter inside map (ex: myMap["SIN"] = pair<double, double>(1.35019, 103.994003);)
             coordinateMap[airport] = pair<double, double>(latitude, longitude);
         }
-        
-    }
 
-	return coordinateMap; //return the map of strings to pairs.
+	    return coordinateMap; //return the map of strings to pairs.
 
 }
 
