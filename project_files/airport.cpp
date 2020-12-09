@@ -75,6 +75,7 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
         int sixthCommaIndex;
         int seventhCommaIndex;
         int eighthCommaIndex;
+        int fifthCommaIndex;
 
         for (unsigned j = 0; j < str.length(); j++) { //traverses each line to find indexes of commas.
             if(str.at(j) == ',' && count <= 8) { //up until 8th comma because information after that is irrelevant.
@@ -88,24 +89,28 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
                         seventhCommaIndex = j;
                     } else if (count == 8) {
                         eighthCommaIndex = j;
+                    } else if (count == 5) {
+                        fifthCommaIndex = j;
                     }
                 }
             }
         }
 
-        //finding the airport name(ex: "SIN"), longitude string and latitude string.
-        string airport = str.substr(fourthCommaIndex+2, 3); //ex: ,"GKA",
-        string latitude_str = str.substr(sixthCommaIndex+1, (seventhCommaIndex-sixthCommaIndex-1)); //ex: ,-6.081689834590001, 
-        string longitude_str = str.substr(seventhCommaIndex+1, (eighthCommaIndex-seventhCommaIndex-1)); 
+        if (fifthCommaIndex - fourthCommaIndex == 6) {
+            //finding the airport name(ex: "SIN"), longitude string and latitude string.
+            string airport = str.substr(fourthCommaIndex+2, 3); //ex: ,"GKA",
+            string latitude_str = str.substr(sixthCommaIndex+1, (seventhCommaIndex-sixthCommaIndex-1)); //ex: ,-6.081689834590001, 
+            string longitude_str = str.substr(seventhCommaIndex+1, (eighthCommaIndex-seventhCommaIndex-1)); 
 
-        //convert strings to doubles; works for negative too.
-        double latitude = stringToDouble(latitude_str);
-        double longitude = stringToDouble(longitude_str);
+            //convert strings to doubles; works for negative too.
+            double latitude = stringToDouble(latitude_str);
+            double longitude = stringToDouble(longitude_str);
 
-        // cout << airport <<" " << latitude_str << " " << longitude_str << endl;
+            // cout << airport <<" " << latitude_str << " " << longitude_str << endl;
             
-        //enter inside map (ex: myMap["SIN"] = pair<double, double>(1.35019, 103.994003);)
-        coordinateMap[airport] = pair<double, double>(latitude, longitude);
+            //enter inside map (ex: myMap["SIN"] = pair<double, double>(1.35019, 103.994003);)
+            coordinateMap[airport] = pair<double, double>(latitude, longitude);
+        }
         
     }
 
