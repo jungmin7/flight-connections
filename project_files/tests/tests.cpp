@@ -31,6 +31,12 @@ static map<string, pair<double, double>> airport_results = {
 
 };
 
+
+// static map<pair<string,string>, double> dist_results = {
+    
+
+// };
+
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 //////////////////////// Start of Tests ////////////////////////
@@ -38,15 +44,16 @@ static map<string, pair<double, double>> airport_results = {
 ////////////////////////////////////////////////////////////////
 
 
-//need to change since the constructor changed
+// need to change since the constructor changed
 
-// TEST_CASE("test_read_airports", "")
-// {
-//     Flights air("airports_test.txt","routes_test.txt");
-//     map<string, pair<double, double>> airport_map = air.readAirports("airports_test.txt");
-//     REQUIRE(airport_map == airport_results);
+TEST_CASE("test_shortestPath", "")
+{
+    Flights air("airports_test.txt","routes_test.txt");
+    
+    // map<string, pair<double, double>> airport_map = air.readAirports("airports_test.txt");
+    // REQUIRE(airport_map == airport_results);
 
-// }
+}
 
 
 

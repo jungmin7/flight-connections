@@ -34,9 +34,6 @@ using namespace std;
 Flights::Flights(const string &routes_data, const string &airport_data) : g(true, true)
 {
     readFlights(routes_data, airport_data);
-
-    //DELETE AFTER TESTING, DEBUGGING, ETC...
-    //g.print();
 }
 
 /**
@@ -45,7 +42,8 @@ Flights::Flights(const string &routes_data, const string &airport_data) : g(true
  * @param map of data file
  * @return vector<string>
  */
-map<string, pair<double, double>> Flights::readAirports(const string &filename) {
+map<string, pair<double, double>> Flights::readAirports(const string &filename)
+{
     //Main variable to return
     //Contains all the airport data with coords
     map<string, pair<double, double>> coordinateMap;
@@ -74,11 +72,12 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
         int sixthCommaIndex;
         int seventhCommaIndex;
         int eighthCommaIndex;
+        int fifthCommaIndex;
 
         for (unsigned j = 0; j < str.length(); j++) { //traverses each line to find indexes of commas.
             if(str.at(j) == ',' && count <= 8) { //up until 8th comma because information after that is irrelevant.
                 count++;
-                if (count == 4 || count == 6 || count == 7 || count == 8) {
+                if (count == 4 || count == 6 || count == 7 || count == 8 || count == 5) {
                     if (count == 4) {
                         fourthCommaIndex = j;
                     } else if (count == 6) {
@@ -87,27 +86,31 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename) 
                         seventhCommaIndex = j;
                     } else if (count == 8) {
                         eighthCommaIndex = j;
+                    } else if (count == 5) {
+                        fifthCommaIndex = j;
                     }
                 }
             }
         }
 
-        //finding the airport name(ex: "SIN"), longitude string and latitude string.
-        string airport = str.substr(fourthCommaIndex+2, 3); //ex: ,"GKA",
-        string latitude_str = str.substr(sixthCommaIndex+1, (seventhCommaIndex-sixthCommaIndex-1)); //ex: ,-6.081689834590001, 
-        string longitude_str = str.substr(seventhCommaIndex+1, (eighthCommaIndex-seventhCommaIndex-1)); 
+        if (fifthCommaIndex - fourthCommaIndex == 6) {
+            //finding the airport name(ex: "SIN"), longitude string and latitude string.
+            string airport = str.substr(fourthCommaIndex+2, 3); //ex: ,"GKA",
+            string latitude_str = str.substr(sixthCommaIndex+1, (seventhCommaIndex-sixthCommaIndex-1)); //ex: ,-6.081689834590001, 
+            string longitude_str = str.substr(seventhCommaIndex+1, (eighthCommaIndex-seventhCommaIndex-1)); 
 
-        //convert strings to doubles; works for negative too.
-        double latitude = stringToDouble(latitude_str);
-        double longitude = stringToDouble(longitude_str);
+            //convert strings to doubles; works for negative too.
+            double latitude = stringToDouble(latitude_str);
+            double longitude = stringToDouble(longitude_str);
+
+            // cout << airport <<" " << latitude_str << " " << longitude_str << endl;
             
-        //enter inside map (ex: myMap["SIN"] = pair<double, double>(1.35019, 103.994003);)
-        coordinateMap[airport] = pair<double, double>(latitude, longitude);
-        
+            //enter inside map (ex: myMap["SIN"] = pair<double, double>(1.35019, 103.994003);)
+            coordinateMap[airport] = pair<double, double>(latitude, longitude);
+        }
+
     }
-
-	return coordinateMap; //return the map of strings to pairs.
-
+    return coordinateMap; //return the map of strings to pairs.
 }
 
 
@@ -152,12 +155,13 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
                 }
             }
         }
-
-        //make vertices
-        if(!g.vertexExists(firstAirport))
+        /** Fixed an error on 12/09 */
+        if (!g.vertexExists(firstAirport)) {
             g.insertVertex(firstAirport);
-        if(!g.vertexExists(secondAirport))
+        }
+        if (!g.vertexExists(secondAirport)) {
             g.insertVertex(secondAirport);
+        }
 
         //creates edge between the two airports
         g.insertEdge(firstAirport, secondAirport);
@@ -225,8 +229,7 @@ double Flights::radToDeg(double rad) {
 }
 
 /**
-* Function to find strngly connected sets of airports (components)
-* @return
+* Function to find strongly connected sets of airports (components)
 */
 void Flights::stronglyConnected()
 {
@@ -256,7 +259,7 @@ void Flights::stronglyConnected()
     Graph temp2(true, true);
     temp2 = g;
     g = reverse;
-
+  
     for(Vertex v : list)
     {
         visited[v] = false;
@@ -332,4 +335,50 @@ Graph Flights::getReverse()
         }
     }
     return reverse;
+  
+vector<Vertex> Flights::BFS(Vertex start) {
+
+    /** Vector to be returned that contains vertices that were visited in order */
+    vector<Vertex> outputBFS;
+
+    int numVertices = g.getVertices().size();
+    cout << "numVertices: " << numVertices << endl;
+    /** Returns a vector containing all the vertices in our Graph, g */
+    vector<Vertex> vertices = g.getVertices();
+
+    /** Map that represents whether an airport was visited. */
+    map<Vertex, bool> visited;
+    visited[start] = false;
+
+    /** Mark all vertices in visited Map as false. */
+    for (auto v: vertices) {
+        // cout << "testing vertices in map: " << v << endl;
+        visited[v] = false;
+    }
+
+    /** Create queue */
+    queue<Vertex> queue;
+
+    // Marks start Airport as visited; adds to queue.
+    visited[start] = true;
+    queue.push(start);
+    
+    Vertex temp;
+    cout << "BFS starting at Airport " << start << ":" << endl;
+    while (!queue.empty()) {
+        temp = queue.front(); // Gets airport at front of queue.
+        queue.pop(); // Pops the airport from the queue.
+        cout << temp << endl; //print the visited vertex.
+        outputBFS.push_back(temp); //add the visited vertex to the output vector.
+
+        vector<Vertex> adjacentVertices = g.getAdjacent(temp); //get all adjacentVertices.
+        for (auto a: adjacentVertices) {
+            if (visited[a] == false) {
+                visited[a] = true;
+                queue.push(a);
+            }
+        }
+    }
+    
+    return outputBFS;
 }

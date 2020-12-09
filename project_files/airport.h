@@ -41,6 +41,9 @@ class Flights
     * @return reversed graph
     */
     Graph getReverse();
+  
+    /*Comment here about functionality*/
+    vector<Vertex> BFS(Vertex start);
 
     private:
         Graph g;

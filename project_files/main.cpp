@@ -8,6 +8,7 @@ using namespace std;
 #include <map>
 #include <utility> // for pair
 #include <cmath>
+#include <queue>
 // #define pi 3.14159265358979323846
 
     class testingHaversine {
@@ -61,7 +62,7 @@ double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, doub
 
   double latDiff = sin((lat2_rad - lat1_rad) / 2);
   double lonDiff = sin((lon2_rad - lon1_rad) / 2);
-  cout << latDiff << " " << lonDiff << endl;
+  // cout << latDiff << " " << lonDiff << endl;
   double a = latDiff * latDiff   +   cos(lat1_rad) * cos(lat2_rad) * lonDiff * lonDiff;
   double earthRadius = 6371.0; //in KILOMETERS. https://en.wikipedia.org/wiki/Earth
   return 2.0 * earthRadius * asin(sqrt(a));
@@ -72,15 +73,55 @@ double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, doub
 
 }
 
+double shortestPath(Vertex src, Vertex dest, Graph g)
+{
+  queue<Vertex> queue;
+  map<Vertex,double> dist;
+  map<Vertex,string> pred;
+
+  for (auto vertices : g.getVertices()) {
+      dist[vertices] = numeric_limits<double>::infinity();
+  }
+  dist[src] = 0.0;
+
+  queue.push(src);
+
+  while (!queue.empty()) {
+      Vertex curr = queue.front();
+      queue.pop();
+
+      vector<Vertex> adj = g.getAdjacent(curr);
+      for (auto it = adj.begin(); it != adj.end(); it++) {
+        int distfromCurr = g.getEdgeWeight(curr,(*it));
+        
+        cout << "curr: " << curr << ", " << "curr's adjacent: " << (*it) << " dist: " << dist[curr] + distfromCurr << endl; 
+
+        if (dist[curr] + distfromCurr < dist[*it]) {
+          dist[*it] = distfromCurr + dist[curr];
+          pred[*it] = curr;
+          queue.push(*it);
+        }
+      }
+  }
+  return dist[dest];
+
+}
+
 
 int main()
 {   
     
-    //Flights air;
+    Flights air("routes_test.txt", "airports_test.txt");
+    // air.g.print();
+    air.BFS("AER");
     //cout << air.stringToDouble("-45.040");
     //air.readFlights("routes_test.txt");
-    map<string, pair<double, double>> mainTest = air.readAirports("airports_test.txt");
-    return 0;
+
+
+
+
+    // map<string, pair<double, double>> mainTest = air.readAirports("airports_test.txt");
+    // return 0;ss
     
     
     Graph g1 = Graph(true, true);
@@ -100,7 +141,36 @@ int main()
 
     double SINtoICNDistance = distanceHaversine(myMap["SIN"].first, myMap["SIN"].second, myMap["ICN"].first, myMap["ICN"].second);
 
-    cout << SINtoICNDistance << endl;
+    // cout << "exp: " << SINtoICNDistance << " obs: " << shortestPath("SIN","ICN",g1) << endl;
+
+
+    
+    //testing shortest path using Flights class
+    myMap["ASF"] = pair<double,double>(46.2832984924,48.0063018799);
+    myMap["KZN"] = pair<double, double>(55.606201171875,49.278701782227);
+
+    // Flights air("routes_test.txt","airports_test.txt");
+    // double exp_dist = air.distanceHaversine(myMap["ASF"].first,myMap["ASF"].second,myMap["KZN"].first,myMap["KZN"].second);
+
+
+    Graph g2 = Graph(true, true);
+
+    g2.insertEdge("ICN", "SIN");
+    g2.insertEdge("SIN", "HKG");
+    g2.insertEdge("HKG", "ORD");
+    g2.insertEdge("ICN", "ORD");
+
+    g2.setEdgeWeight("ICN", "SIN",1);
+    g2.setEdgeWeight("SIN", "HKG",3);
+    g2.setEdgeWeight("HKG", "ORD",2); 
+    g2.setEdgeWeight("ICN", "ORD",10);
+
+
+
+
+    double obs_dist = shortestPath("ICN","ORD",g2);
+    cout << "direct " << 10 << "obs " << obs_dist << endl; 
+    
 
     // g1.print();
 
@@ -121,7 +191,7 @@ int main()
 
 
 
-
+    /**
     Graph g2 = Graph(true, true);
     g2.insertEdge("SIN", "ICN");
     g2.insertEdge("ICN", "NRT");
@@ -135,6 +205,7 @@ int main()
     // g2.setEdgeWeight("NRT", "JFK", 40);
 
     g2.print();
+    */
   
     
     /**
