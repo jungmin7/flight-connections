@@ -316,6 +316,7 @@ TEST_CASE("test_sample_simple_shortestPath", "[shortestPath]") {
     //Creating test graph
     Flights air("routes_test.txt","airports_test.txt");
     Graph pathTest(true, true);
+    
     Vertex v0 = "0";
     Vertex v1 = "1";
     Vertex v2 = "2";
@@ -325,6 +326,7 @@ TEST_CASE("test_sample_simple_shortestPath", "[shortestPath]") {
     Vertex v6 = "6";
     Vertex v7 = "7";
     Vertex v8 = "8";
+
     pathTest.insertVertex(v0);
     pathTest.insertVertex(v1);
     pathTest.insertVertex(v2);
@@ -334,6 +336,7 @@ TEST_CASE("test_sample_simple_shortestPath", "[shortestPath]") {
     pathTest.insertVertex(v6);
     pathTest.insertVertex(v7);
     pathTest.insertVertex(v8);
+
     pathTest.insertEdge("1", "2");
     pathTest.insertEdge("2", "3");
     pathTest.insertEdge("3", "0");
@@ -344,6 +347,7 @@ TEST_CASE("test_sample_simple_shortestPath", "[shortestPath]") {
     pathTest.insertEdge("6", "4");
     pathTest.insertEdge("7", "6");
     pathTest.insertEdge("7", "8");
+
     pathTest.setEdgeWeight("1", "2", 2);
     pathTest.setEdgeWeight("2", "3", 3);
     pathTest.setEdgeWeight("3", "0", 1);
@@ -354,12 +358,16 @@ TEST_CASE("test_sample_simple_shortestPath", "[shortestPath]") {
     pathTest.setEdgeWeight("6", "4", 2);
     pathTest.setEdgeWeight("7", "6", 9);
     pathTest.setEdgeWeight("7", "8", 2);
+
     air.g = pathTest;
+
     int dist = 17;
     int dist_result = air.shortestPath("1", "6");
+
     cout << "Expected distace: " << dist << endl;
     cout << "Actual distace: " << dist_result << endl;
     cout << " " << endl;
+  
     REQUIRE(dist == dist_result);
 }
 
@@ -412,9 +420,11 @@ TEST_CASE("test_sample_complex_shortestPath", "[shortestPath]") {
     air.g = pathTest;
     int dist = 10;
     int dist_result = air.shortestPath("1", "6");
+  
     cout << "Expected distace: " << dist << endl;
     cout << "Actual distace: " << dist_result << endl;
     cout << " " << endl;
+  
     REQUIRE(dist == dist_result);
 }
 
