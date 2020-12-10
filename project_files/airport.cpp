@@ -32,11 +32,6 @@ using namespace std;
 Flights::Flights(const string &routes_data, const string &airport_data) : g(true, true)
 {
     readFlights(routes_data, airport_data);
-    g.insertEdge("LED", "EGO");
-    g.setEdgeWeight("LED", "EGO", 20);
-    //g.setEdgeWeight("KZN", "EGO", 2000);
-    //DELETE AFTER TESTING, DEBUGGING, ETC...
-    //g.print();
 }
 
 /**
