@@ -27,6 +27,69 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
+//////////////// Reading routes.txt Test Cases ////////////////
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+TEST_CASE("test_readFlights1", "[readFlights]")
+{
+    Flights air("routes_test.txt", "airports_test.txt");
+    map<pair<Vertex, Vertex>, int> m = air.readFlights();
+
+    int expected = m[{"SIN", "ICN"}];
+    int actual = 4613;
+    cout << "Expected pair: " << expected << endl;
+    cout << "Actual pair: " << actual << endl;
+    bool check = actual - 30 < expected && actual + 30 > expected;
+    if(check && actual != expected)
+    {
+        cout << "Within margin of error" << endl;
+    }
+
+    cout << " " << endl;
+    REQUIRE(check);
+}
+
+TEST_CASE("test_readFlights2", "[readFlights]")
+{
+    Flights air("routes_test.txt", "airports_test.txt");
+    map<pair<Vertex, Vertex>, int> m = air.readFlights();
+
+    int expected = m[{"KZN", "CEK"}];
+    int actual = 773;
+    cout << "Expected pair: " << expected << endl;
+    cout << "Actual pair: " << actual << endl;
+    bool check = actual - 30 < expected && actual + 30 > expected;
+    if(check && actual != expected)
+    {
+        cout << "Within margin of error" << endl;
+    }
+
+    cout << " " << endl;
+    REQUIRE(check);
+}
+
+TEST_CASE("test_readFlights3", "[readFlights]")
+{
+    Flights air("routes_test.txt", "airports_test.txt");
+    map<pair<Vertex, Vertex>, int> m = air.readFlights();
+
+    int expected = m[{"DME", "TGK"}];
+    int actual = 916;
+    cout << "Expected pair: " << expected << endl;
+    cout << "Actual pair: " << actual << endl;
+    bool check = actual - 30 < expected && actual + 30 > expected;
+    if(check && actual != expected)
+    {
+        cout << "Within margin of error" << endl;
+    }
+
+    cout << " " << endl;
+    REQUIRE(check);
+}
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 //////////////////////// BFS Test Cases ////////////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
