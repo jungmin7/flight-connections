@@ -48,7 +48,7 @@ class Flights
      * @param dest the arrival airport
      * @return the shortest distance path between two airports
      */
-    double shortestPath(Vertex src, Vertex dest);
+    int shortestPath(Vertex src, Vertex dest);
   
     /*Comment here about functionality*/
     vector<Vertex> BFS(Vertex start);

@@ -32,9 +32,11 @@ using namespace std;
 Flights::Flights(const string &routes_data, const string &airport_data) : g(true, true)
 {
     readFlights(routes_data, airport_data);
-
+    g.insertEdge("LED", "EGO");
+    g.setEdgeWeight("LED", "EGO", 20);
+    //g.setEdgeWeight("KZN", "EGO", 2000);
     //DELETE AFTER TESTING, DEBUGGING, ETC...
-    // g.print();
+    //g.print();
 }
 
 /**
@@ -342,7 +344,7 @@ Graph Flights::getReverse()
 }
 
 
-double Flights::shortestPath(Vertex src, Vertex dest)
+int Flights::shortestPath(Vertex src, Vertex dest)
 {
     queue<Vertex> queue;
     map<Vertex,double> dist;
@@ -376,7 +378,29 @@ double Flights::shortestPath(Vertex src, Vertex dest)
         }
     }
 
-    return dist[dest];
+    //Printing stuff
+    if(dist[dest] == numeric_limits<double>::infinity())
+    {
+        cout << "No path found between entered source and destination." << endl;
+        return -1;
+    }
+    string temp = dest;
+    stack<string> temp2;
+    while(temp != src)
+    {
+        temp = pred[temp];
+        temp2.push(temp);
+    }
+    cout << "Shortest flight path: ";
+    while(!temp2.empty())
+    {
+        cout << temp2.top() << "->";
+        temp2.pop();
+    }
+    cout << dest << endl;
+
+
+    return (int)dist[dest];
 }
 
 vector<Vertex> Flights::BFS(Vertex start)
