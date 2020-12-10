@@ -29,7 +29,12 @@ using namespace std;
  */
 Flights::Flights(const string &routes_data, const string &airport_data) : g(true, true)
 {
-    readFlights(routes_data, airport_data);
+    /** Saves names of files as instance variables so it can be used in readAirports and readFlights */
+    routes_filename = routes_data;
+    airports_filename = airport_data;
+    
+    /** Immediately calls readFlights because the graph is constructed in the readFlights function */
+    readFlights();
 }
 
 /**
@@ -38,7 +43,7 @@ Flights::Flights(const string &routes_data, const string &airport_data) : g(true
  * @param map of data file
  * @return vector<string>
  */
-map<string, pair<double, double>> Flights::readAirports(const string &filename)
+map<string, pair<double, double>> Flights::readAirports()
 {
     //Main variable to return
     //Contains all the airport data with coords
@@ -49,7 +54,7 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename)
 
     //Opening file
     ifstream file;
-    file.open(filename);
+    file.open(airports_filename);
     if (!file.is_open()) {
         cout << "error while opening the file" << endl;
     } else {
@@ -115,13 +120,13 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename)
  * 
  * @param data file for routes
  */
-map<Vertex, Vertex> Flights::readFlights(const string &filename1, const string &filename2) {
+map<pair<Vertex, Vertex>, int> Flights::readFlights() {
 
     //opening and reading file
     ifstream file;
-    file.open(filename1);
+    file.open(routes_filename);
     vector<string> out;
-    map<Vertex, Vertex> flight_routes;
+    map<pair<Vertex, Vertex>, int> flight_routes;
 
     if (!file.is_open()) {
         cout << "error while opening the file" << endl;
@@ -134,7 +139,7 @@ map<Vertex, Vertex> Flights::readFlights(const string &filename1, const string &
     }
 
     //start of processing file
-    map<string, pair<double, double>> airport = readAirports(filename2);
+    map<string, pair<double, double>> airport = readAirports();
     Vertex firstAirport;
     Vertex secondAirport;
     for(unsigned i = 0; i < out.size(); i++) { //traverses line by line.
@@ -160,8 +165,6 @@ map<Vertex, Vertex> Flights::readFlights(const string &filename1, const string &
             g.insertVertex(secondAirport);
         }
 
-        flight_routes[firstAirport] = secondAirport;
-
         //creates edge between the two airports
         g.insertEdge(firstAirport, secondAirport);
 
@@ -171,7 +174,9 @@ map<Vertex, Vertex> Flights::readFlights(const string &filename1, const string &
         g.setEdgeLabel(firstAirport, secondAirport, label);
 
         //calculating distance using haversine method
-        double dist = distanceHaversine(airport[firstAirport].first, airport[firstAirport].second, airport[secondAirport].first, airport[secondAirport].second);
+        int dist = distanceHaversine(airport[firstAirport].first, airport[firstAirport].second, airport[secondAirport].first, airport[secondAirport].second);
+
+        flight_routes[{firstAirport, secondAirport}] = dist;
 
         //sets the edge weight as the distance
         g.setEdgeWeight(firstAirport, secondAirport, dist);    
@@ -197,7 +202,7 @@ double Flights::stringToDouble(string str) {
  * @param double latitude and longitude values for the source and destination airport
  * @return distance between two points in kilometers.
  */
-double Flights::distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg) {
+int Flights::distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg) {
 
     double lat1_rad = degToRad(lat1_deg);
     double lon1_rad = degToRad(lon1_deg);
@@ -208,7 +213,7 @@ double Flights::distanceHaversine(double lat1_deg, double lon1_deg, double lat2_
     double lonDiff = sin((lon2_rad - lon1_rad) / 2);
     double a = latDiff * latDiff   +   cos(lat1_rad) * cos(lat2_rad) * lonDiff * lonDiff;
     double earthRadius = 6371.0; //in KILOMETERS. https://en.wikipedia.org/wiki/Earth
-    return 2.0 * earthRadius * asin(sqrt(a));
+    return (int) (2.0 * earthRadius * asin(sqrt(a)));
 
     // radius varies on Earth: 6356.752 km at the poles to 6378.137 km at the equator. 
     // computing SIN to ICN results in 4780.65
