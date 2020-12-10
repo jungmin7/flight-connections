@@ -115,12 +115,13 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename)
  * 
  * @param data file for routes
  */
-void Flights::readFlights(const string &filename1, const string &filename2) {
+map<Vertex, Vertex> Flights::readFlights(const string &filename1, const string &filename2) {
 
     //opening and reading file
     ifstream file;
     file.open(filename1);
     vector<string> out;
+    map<Vertex, Vertex> flight_routes;
 
     if (!file.is_open()) {
         cout << "error while opening the file" << endl;
@@ -159,6 +160,8 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
             g.insertVertex(secondAirport);
         }
 
+        flight_routes[firstAirport] = secondAirport;
+
         //creates edge between the two airports
         g.insertEdge(firstAirport, secondAirport);
 
@@ -171,10 +174,10 @@ void Flights::readFlights(const string &filename1, const string &filename2) {
         double dist = distanceHaversine(airport[firstAirport].first, airport[firstAirport].second, airport[secondAirport].first, airport[secondAirport].second);
 
         //sets the edge weight as the distance
-        g.setEdgeWeight(firstAirport, secondAirport, dist);
-        
-        
+        g.setEdgeWeight(firstAirport, secondAirport, dist);    
     }
+
+    return flight_routes;
 }
 
 /**

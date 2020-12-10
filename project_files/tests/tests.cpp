@@ -304,9 +304,6 @@ TEST_CASE("test_Flights_BFS", "[BFS]") {
     REQUIRE(returnVector == testVector);
 }
 
-TEST_CASE("test_mediumFlights_BFS", "[BFS]") {
-}
-
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 //////////////////////// Shortest Path Tests ////////////////////////
@@ -366,8 +363,11 @@ TEST_CASE("test_sample_simple_shortestPath", "[shortestPath]") {
 
     int dist = 17;
     int dist_result = air.shortestPath("1", "6");
-    
+
+    cout << "Expected distace: " << dist << endl;
+    cout << "Actual distace: " << dist_result << endl;
     cout << " " << endl;
+  
     REQUIRE(dist == dist_result);
 }
 
@@ -420,7 +420,11 @@ TEST_CASE("test_sample_complex_shortestPath", "[shortestPath]") {
     air.g = pathTest;
     int dist = 10;
     int dist_result = air.shortestPath("1", "6");
+  
+    cout << "Expected distace: " << dist << endl;
+    cout << "Actual distace: " << dist_result << endl;
     cout << " " << endl;
+  
     REQUIRE(dist == dist_result);
 }
 

@@ -30,7 +30,7 @@ class Flights
      * Function to read data from flight paths data set.
      * Also uses readAirports to assist in creating the fligh graph
      */
-    void readFlights(const string &, const string &);
+    map<Vertex, Vertex> readFlights(const string &, const string &);
 
     /**
     * Function to find strngly connected sets of airports (components)
