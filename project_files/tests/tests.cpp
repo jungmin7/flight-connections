@@ -48,13 +48,16 @@ static map<string, pair<double, double>> airport_results = {
 
 // need to change since the constructor changed
 
-TEST_CASE("test_shortestPath", "")
+TEST_CASE("test_shortestPath", "[shortestPath]")
 {
+    cout << "[test_shortestPath]" << endl;
     Flights air("routes_test.txt","airports_test.txt");
-    double path = air.shortestPath("EGO","KGD");
-    int path_result = (int)air.distanceHaversine(50.643798828125,36.5900993347168,54.88999938964844,20.592599868774414);
+    int path = air.shortestPath("EGO","KGD");
+    int path_result = air.distanceHaversine(50.643798828125,36.5900993347168,54.88999938964844,20.592599868774414);
+    cout << "Expected distace: " << path_result << endl;
+    cout << "Actual distace: " << path << endl;
+    cout << " " << endl;
     REQUIRE(path == path_result);
-
 }
 
 ////////////////////////////////////////////////////////////////
