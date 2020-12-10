@@ -25,6 +25,106 @@ using namespace std;
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+//////////////// Reading airports.txt Test Cases ////////////////
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+TEST_CASE("test_readAirports1", "[readAirports]")
+{
+    cout << "[test_readAirports1]" << endl;
+    Flights air("routes_test.txt", "airports_test.txt");
+    map<string, pair<double, double>> myMap = air.readAirports();
+    
+    // expected value from data file: "SIN", 1.35019, 103.994003
+    // actual value printed from function: 1.35019, 103.994
+
+    double expected_long = 1.35019;
+    double expected_lat = 103.994003;
+
+    double actual_long = myMap["SIN"].first;
+    double actual_lat = myMap["SIN"].second;
+
+    bool test = true;
+    if (!(expected_long - 0.001 < actual_long && expected_long + 0.001 > actual_long)) {
+        test = false;
+    }
+    if (!(expected_lat - 0.001 < actual_lat && expected_lat + 0.001 > actual_lat)) {
+        test = false;
+    }
+
+    cout << "Expected longitude and latitude for SIN: " << expected_long << ", " << expected_lat <<endl;
+    cout << "Actual longitude and latitude for SIN: " << actual_long << ", " << actual_lat << endl;
+    cout << " " << endl;
+
+    REQUIRE(test);
+}
+
+TEST_CASE("test_readAirports2", "[readAirports]")
+{
+    cout << "[test_readAirports2]" << endl;
+    Flights air("routes_test.txt", "airports_test.txt");
+    map<string, pair<double, double>> myMap = air.readAirports();
+    
+    // expected value from data file: "ICN", 37.46910095214844,126.45099639892578
+    // actual value printed from function: 37.4691, 126.451
+
+    double expected_long = 37.46910095214844;
+    double expected_lat = 126.45099639892578;
+
+    double actual_long = myMap["ICN"].first;
+    double actual_lat = myMap["ICN"].second;
+
+    bool test = true;
+    if (!(expected_long - 0.001 < actual_long && expected_long + 0.001 > actual_long)) {
+        test = false;
+    }
+    if (!(expected_lat - 0.001 < actual_lat && expected_lat + 0.001 > actual_lat)) {
+        test = false;
+    }
+
+    cout << "Expected longitude and latitude for ICN: " << expected_long << ", " << expected_lat <<endl;
+    cout << "Actual longitude and latitude for ICN: " << actual_long << ", " << actual_lat << endl;
+    cout << " " << endl;
+
+    REQUIRE(test);
+
+}
+
+TEST_CASE("test_readAirports3", "[readAirports]")
+{
+    cout << "[test_readAirports3]" << endl;
+    Flights air("routes_test.txt", "airports.txt");
+    map<string, pair<double, double>> myMap = air.readAirports();
+    
+    // expected value from data file: "JFK", 40.63980103, -73.77890015
+    // actual value printed from function: 40.6398 -73.7789
+
+    double expected_long = 40.63980103;
+    double expected_lat = -73.77890015;
+
+    double actual_long = myMap["JFK"].first;
+    double actual_lat = myMap["JFK"].second;
+
+    bool test = true;
+    if (!(expected_long - 0.001 < actual_long && expected_long + 0.001 > actual_long)) {
+        test = false;
+    }
+    if (!(expected_lat - 0.001 < actual_lat && expected_lat + 0.001 > actual_lat)) {
+        test = false;
+    }
+
+    cout << "Expected longitude and latitude for JFK: " << expected_long << ", " << expected_lat <<endl;
+    cout << "Actual longitude and latitude for JFK: " << actual_long << ", " << actual_lat << endl;
+    cout << " " << endl;
+
+    REQUIRE(test);
+
+}
+
+
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 //////////////// Reading routes.txt Test Cases ////////////////
@@ -33,17 +133,18 @@ using namespace std;
 
 TEST_CASE("test_readFlights1", "[readFlights]")
 {
+    cout << "[test_readFlights1]" << endl;
     Flights air("routes_test.txt", "airports_test.txt");
     map<pair<Vertex, Vertex>, int> m = air.readFlights();
 
     int expected = m[{"SIN", "ICN"}];
     int actual = 4613;
-    cout << "Expected pair: " << expected << endl;
-    cout << "Actual pair: " << actual << endl;
+    cout << "Expected distance between SIN and ICN: " << expected << " km" <<endl;
+    cout << "Actual distance between SIN and ICN: " << actual << " km" << endl;
     bool check = actual - 30 < expected && actual + 30 > expected;
     if(check && actual != expected)
     {
-        cout << "Within margin of error" << endl;
+        cout << "(Within margin of error)" << endl;
     }
 
     cout << " " << endl;
@@ -52,17 +153,19 @@ TEST_CASE("test_readFlights1", "[readFlights]")
 
 TEST_CASE("test_readFlights2", "[readFlights]")
 {
+    cout << "[test_readFlights2]" << endl;
     Flights air("routes_test.txt", "airports_test.txt");
     map<pair<Vertex, Vertex>, int> m = air.readFlights();
 
     int expected = m[{"KZN", "CEK"}];
     int actual = 773;
-    cout << "Expected pair: " << expected << endl;
-    cout << "Actual pair: " << actual << endl;
+
+    cout << "Expected distance between KZN and CEK: " << expected << " km" << endl;
+    cout << "Actual distance between KZN and CEK: " << actual << " km" << endl;
     bool check = actual - 30 < expected && actual + 30 > expected;
     if(check && actual != expected)
     {
-        cout << "Within margin of error" << endl;
+        cout << "(Within margin of error)" << endl;
     }
 
     cout << " " << endl;
@@ -71,17 +174,20 @@ TEST_CASE("test_readFlights2", "[readFlights]")
 
 TEST_CASE("test_readFlights3", "[readFlights]")
 {
+    cout << "[test_readFlights3]" << endl;
     Flights air("routes_test.txt", "airports_test.txt");
     map<pair<Vertex, Vertex>, int> m = air.readFlights();
 
     int expected = m[{"DME", "TGK"}];
     int actual = 916;
-    cout << "Expected pair: " << expected << endl;
-    cout << "Actual pair: " << actual << endl;
+
+    cout << "Expected distance between DME and TGK: " << expected << " km" << endl;
+    cout << "Actual distance between DME and TGK: " << actual << " km" << endl;
+
     bool check = actual - 30 < expected && actual + 30 > expected;
     if(check && actual != expected)
     {
-        cout << "Within margin of error" << endl;
+        cout << "(Within margin of error)" << endl;
     }
 
     cout << " " << endl;
@@ -492,9 +598,9 @@ TEST_CASE("test_sample_complex_shortestPath", "[shortestPath]") {
 }
 
 
-TEST_CASE("test_shortestPath", "[shortestPath]")
+TEST_CASE("test_flights_shortestPath", "[shortestPath]")
 {
-    cout << "[test_shortestPath]" << endl;
+    cout << "[test_flights_shortestPath]" << endl;
     Flights air("routes_test.txt","airports_test.txt");
     int path = air.shortestPath("EGO","KGD");
     int path_result = air.distanceHaversine(50.643798828125,36.5900993347168,54.88999938964844,20.592599868774414);

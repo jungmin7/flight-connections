@@ -15,3 +15,4 @@
 6160,"Bugulma Airport","Bugulma","Russia","UUA","UWKB",54.63999938964844,52.801700592041016,991,3,"N","Europe/Moscow","airport","OurAirports"
 3930,"Incheon International Airport","Seoul","South Korea","ICN","RKSI",37.46910095214844,126.45099639892578,23,9,"U","Asia/Seoul","airport","OurAirports"
 3316,"Singapore Changi Airport","Singapore","Singapore","SIN","WSSS",1.35019,103.994003,22,8,"N","Asia/Singapore","airport","OurAirports"
+3797,"John F Kennedy International Airport","New York","United States","JFK","KJFK",40.63980103,-73.77890015,13,-5,"A","America/New_York","airport","OurAirports"

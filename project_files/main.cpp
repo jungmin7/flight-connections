@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
     Flights air("routes_test.txt", "airports.txt");
-    
+
     return 0;
 
 }
