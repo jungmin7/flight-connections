@@ -12,6 +12,6 @@ using namespace std;
 
 int main()
 {
-    Flights air("routes_test.txt", "airports_test.txt");
+    Flights air("routes.txt", "airports.txt");
     return 0;
 }
