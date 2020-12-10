@@ -23,12 +23,12 @@ using std::stringstream;
 using namespace std;
 
 /**
- * Constructor for Flights
- * 
- * @param string for routes and airport data files respectively
+ * Constructor saves names of routes and airports data files as instance variables.
+ * Calls readAirports where the graph constructing happens.
+ * Text files need to be in the same format as the provided examples such as routes.txt and airports.txt in order for data to be correctly parsed.
+ * @param routes.txt and airports.txt files
  */
-Flights::Flights(const string &routes_data, const string &airport_data) : g(true, true)
-{
+Flights::Flights(const string &routes_data, const string &airport_data) : g(true, true) {
     /** Saves names of files as instance variables so it can be used in readAirports and readFlights */
     routes_filename = routes_data;
     airports_filename = airport_data;
@@ -38,13 +38,11 @@ Flights::Flights(const string &routes_data, const string &airport_data) : g(true
 }
 
 /**
- * readAirports function.
- * 
- * @param map of data file
- * @return vector<string>
+ * readAirports function to read longitude/latitude data from flight routes dataset that was previously saved through the constructor call.
+ * The main purpose of this function is so that we can later calculate the distances between airports using the longitude/latitude values.
+ * @return a map<string, pair<double, double>> mapping an airport name to its corresponding pair of longitude and latitude values from the airports_data file.
  */
-map<string, pair<double, double>> Flights::readAirports()
-{
+map<string, pair<double, double>> Flights::readAirports() {
     //Main variable to return
     //Contains all the airport data with coords
     map<string, pair<double, double>> coordinateMap;
@@ -116,9 +114,10 @@ map<string, pair<double, double>> Flights::readAirports()
 
 
 /**
- * readFlights function.
- * 
- * @param data file for routes
+ * readFlights function to read data from flight paths data set that was previously saved through the constructor call.
+ * Also calls readAirports and uses the longitude/latitude values that were returned from readAirports to call distanceHaversine in order to
+ * calculate distance between two airports.
+ * @return a map<pair<Vertex, Vertex>, int> where two values in the pair represent the flight path between the first airport to the second airport and int represents the distance between them.
  */
 map<pair<Vertex, Vertex>, int> Flights::readFlights() {
 
@@ -186,19 +185,9 @@ map<pair<Vertex, Vertex>, int> Flights::readFlights() {
 }
 
 /**
- * Helper function to convert a string into a double.
- * Tested that this works for negative numbers too.
- * @param string 
- * @return double
- */
-double Flights::stringToDouble(string str) { 
-    double d = strtod(str.c_str(), NULL);
-    return d;
-}
-
-/**
  * Returns the distance between two points on the Earth using Haversine Formula.
- * https://www.movable-type.co.uk/scripts/latlong.html
+ * Haversine formula resource used: https://www.movable-type.co.uk/scripts/latlong.html
+ * Website used to test if our function works correctly: https://www.airmilescalculator.com/distance/sin-to-icn/
  * @param double latitude and longitude values for the source and destination airport
  * @return distance between two points in kilometers.
  */
@@ -220,26 +209,9 @@ int Flights::distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg
     // First iteration: 4627.36; Second iteration: 4780.65; Third iteration: 4627.37
 }
 
-/** 
- * Helper method for degrees to radian used in calculateDistance
- * @param deg
- * @return radian equiv
- */
-double Flights::degToRad(double deg) {
-  return (deg * M_PI / 180);
-}
-
-/** 
- * Helper method for radian to degrees used in calculateDistance
- * @param radian
- * @return deg equiv
- */
-double Flights::radToDeg(double rad) {
-  return (rad * 180 / M_PI);
-}
 
 /**
-* Function to find strongly connected sets of airports (components)
+* Function to find strongly connected sets of airports (components) on the Graph saved as an instance variable
 * @return 2D vector list for strongly connected components of graph
 */
 vector<vector<Vertex>> Flights::stronglyConnected()
@@ -378,10 +350,10 @@ Graph Flights::getReverse()
 }
 
 /**
- * Function to find the shortest path using Dijkstra's algorithm
+ * Function to find the shortest path using Dijkstra's algorithm on the Graph saved as an instance variable
  * @param src the departure airport
  * @param dest the arrival airport
- * @return the shortest distance path between two airports
+ * @return the shortest distance path between two airports rounded to an integer.
  */
 int Flights::shortestPath(Vertex src, Vertex dest)
 {
@@ -464,7 +436,7 @@ int Flights::shortestPath(Vertex src, Vertex dest)
 }
 
 /**
- * Function to find the shortest path using Dijkstra's algorithm
+ * Function that performs a BFS on graph on the Graph saved as an instance variable
  * @param vertex takes a starting vertex and performs BFS
  * @return vector list with nodes tranversed in order
  */
@@ -518,3 +490,34 @@ vector<Vertex> Flights::BFS(Vertex start)
     return outputBFS;
 }
 
+
+/* Start of helper fuctions section */
+
+/**
+ * Helper function to convert a string into a double.
+ * Tested that this works for negative numbers too.
+ * @param string 
+ * @return double
+ */
+double Flights::stringToDouble(string str) { 
+    double d = strtod(str.c_str(), NULL);
+    return d;
+}
+
+/** 
+ * Helper method for degrees to radian used in calculateDistance
+ * @param deg
+ * @return radian equiv
+ */
+double Flights::degToRad(double deg) {
+  return (deg * M_PI / 180);
+}
+
+/** 
+ * Helper method for radian to degrees used in calculateDistance
+ * @param radian
+ * @return deg equiv
+ */
+double Flights::radToDeg(double rad) {
+  return (rad * 180 / M_PI);
+}
