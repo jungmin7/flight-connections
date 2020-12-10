@@ -1,7 +1,7 @@
 ﻿Weekly Development Log
 
-Jaywoo Jo
-Hemank Kohli
+Jaywoo Jo, 
+Hemank Kohli, 
 Holly Lee
 
 
