@@ -1,5 +1,3 @@
-/* airport.cpp */
-
 #include "graph.h"
 #include "airport.h"
 
@@ -32,13 +30,10 @@ using namespace std;
 Flights::Flights(const string &routes_data, const string &airport_data) : g(true, true)
 {
     readFlights(routes_data, airport_data);
-
-    //DELETE AFTER TESTING, DEBUGGING, ETC...
-    g.print();
 }
 
 /**
- * readFlights function.
+ * readAirports function.
  * 
  * @param map of data file
  * @return vector<string>
@@ -118,8 +113,7 @@ map<string, pair<double, double>> Flights::readAirports(const string &filename)
 /**
  * readFlights function.
  * 
- * @param data file
- * @return vector<string>
+ * @param data file for routes
  */
 void Flights::readFlights(const string &filename1, const string &filename2) {
 
@@ -220,6 +214,8 @@ double Flights::distanceHaversine(double lat1_deg, double lon1_deg, double lat2_
 
 /** 
  * Helper method for degrees to radian used in calculateDistance
+ * @param deg
+ * @return radian equiv
  */
 double Flights::degToRad(double deg) {
   return (deg * M_PI / 180);
@@ -227,6 +223,8 @@ double Flights::degToRad(double deg) {
 
 /** 
  * Helper method for radian to degrees used in calculateDistance
+ * @param radian
+ * @return deg equiv
  */
 double Flights::radToDeg(double rad) {
   return (rad * 180 / M_PI);
@@ -234,21 +232,25 @@ double Flights::radToDeg(double rad) {
 
 /**
 * Function to find strongly connected sets of airports (components)
+* @return 2D vector list for strongly connected components of graph
 */
-void Flights::stronglyConnected()
+vector<vector<Vertex>> Flights::stronglyConnected()
 {
-    //REPLACE WITH DFS ALGORITHM
+    //get all the vertices
     vector<Vertex> list = g.getVertices();
 
-    //start of strongly connected algorithm
     stack<Vertex> stack;
     map<Vertex, bool> visited;
 
+    //set each node to false in visited
     for(Vertex vertex : list)
     {
         visited[vertex] = false;
     }
 
+    //start of strongly connected algorithm
+    //If node is visited then skip it,
+    //else tranverse through node using DFS helper
     for(Vertex vertex : list)
     {
         if(visited[vertex])
@@ -258,12 +260,18 @@ void Flights::stronglyConnected()
         DFS(vertex, visited, stack);
     }
 
+    //get the reverse of the graph
     Graph reverse(true, true);
     reverse = getReverse();
-    Graph temp2(true, true);
-    temp2 = g;
+
+    //store current graph in temp variable
+    Graph temp(true, true);
+    temp = g;
+
     g = reverse;
   
+    //go through map again and making each node false
+    //this is start of second pass of algorithm
     for(Vertex v : list)
     {
         visited[v] = false;
@@ -271,6 +279,8 @@ void Flights::stronglyConnected()
 
     vector<vector<Vertex>> result;
 
+    //go through the stack and for each set of nodes that are visited through DFS,
+    //store in result and continue
     while(!stack.empty())
     {
         Vertex vertex = stack.top();
@@ -284,6 +294,7 @@ void Flights::stronglyConnected()
         result.push_back(set);
     }
 
+    //printing code
     cout << "Strongly connected components are as follows:" << endl; 
     for(unsigned i = 0; i < result.size(); i++)
     {
@@ -294,9 +305,18 @@ void Flights::stronglyConnected()
         }
         cout << "" << endl;
     }
-    g = temp2;
+
+    //restore original graph
+    g = temp;
+
+    return result;
 }
 
+/**
+* Helper function for stronglyConnected()
+* @param vertex, visited map, and stack
+* @return stack in DFS ordered by visiting time
+*/
 void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, stack<Vertex> &stack)
 {
     visited[vertex] = true;
@@ -311,6 +331,10 @@ void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, stack<Vertex> &stac
     stack.push(vertex);
 }
 
+/**
+* Helper function for stronglyConnected()
+* @param vertex, visited map, and set list
+*/
 void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, vector<Vertex> &set)
 {
     visited[vertex] = true;
@@ -325,6 +349,10 @@ void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, vector<Vertex> &set
     }
 }
 
+/**
+* Helper function for stronglyConnected()
+* @return reverse of graph
+*/
 Graph Flights::getReverse()
 {
     Graph reverse(true, true);
@@ -341,13 +369,21 @@ Graph Flights::getReverse()
     return reverse;
 }
 
-
-double Flights::shortestPath(Vertex src, Vertex dest)
+/**
+ * Function to find the shortest path using Dijkstra's algorithm
+ * @param src the departure airport
+ * @param dest the arrival airport
+ * @return the shortest distance path between two airports
+ */
+int Flights::shortestPath(Vertex src, Vertex dest)
 {
     queue<Vertex> queue;
     map<Vertex,double> dist;
+
+    //map used for storing previous nodes
     map<Vertex,string> pred;
 
+    //set all current nodes infinity and source node to 0
     for (auto vertices : g.getVertices()) {
         dist[vertices] = numeric_limits<double>::infinity();
     }
@@ -355,13 +391,21 @@ double Flights::shortestPath(Vertex src, Vertex dest)
 
     queue.push(src);
 
-
+    //start of shortest path algorithm
     while (!queue.empty()) {
+
+        //get current visited node in queue
         Vertex curr = queue.front();
         queue.pop();
 
         int distfromCurr = -1;
+        
+        //get adjacent nodes to current nodes
         vector<Vertex> adj = g.getAdjacent(curr);
+
+        //iterate through each adjacent node and check if distance of current node
+        //plus the weight of the edge is lower than the current distance of the
+        //adjacent node
         for (auto it = adj.begin(); it != adj.end(); it++) {
             if(g.edgeExists(curr, (*it)))
             {
@@ -369,23 +413,60 @@ double Flights::shortestPath(Vertex src, Vertex dest)
             
                 if (dist[curr] + distfromCurr < dist[*it]) {
                     dist[*it] = distfromCurr + dist[curr];
+
+                    //also store the previous node from which the lowest distance was recorded
                     pred[*it] = curr;
+
+                    //update queue
                     queue.push(*it);
                 }
             }
         }
     }
 
-    return dist[dest];
+    //printing stuff
+    if(dist[dest] == numeric_limits<double>::infinity())
+    {
+        cout << "No path found between entered source and destination." << endl;
+        return -1;
+    }
+
+    //string variable that goes through all the 3-letter airport codes
+    string temp = dest;
+
+    //stack to reverse order of flight path
+    stack<string> temp2;
+
+    //rest of printing code
+    while(temp != src)
+    {
+        temp = pred[temp];
+        temp2.push(temp);
+    }
+    cout << "Shortest flight path: ";
+    while(!temp2.empty())
+    {
+        cout << temp2.top() << "->";
+        temp2.pop();
+    }
+    cout << dest << endl;
+
+
+    return (int)dist[dest];
 }
 
+/**
+ * Function to find the shortest path using Dijkstra's algorithm
+ * @param vertex takes a starting vertex and performs BFS
+ * @return vector list with nodes tranversed in order
+ */
 vector<Vertex> Flights::BFS(Vertex start)
 {
     /** Vector to be returned that contains vertices that were visited in order */
     vector<Vertex> outputBFS;
 
     int numVertices = g.getVertices().size();
-    cout << "numVertices: " << numVertices << endl;
+    // cout << "numVertices: " << numVertices << endl;
     /** Returns a vector containing all the vertices in our Graph, g */
     vector<Vertex> vertices = g.getVertices();
 
@@ -407,11 +488,14 @@ vector<Vertex> Flights::BFS(Vertex start)
     queue.push(start);
     
     Vertex temp;
-    cout << "BFS starting at Airport " << start << ":" << endl;
+    cout << "< BFS for Graph with " << numVertices << "-vertices starting at Vertex = " 
+        << start << " >" << endl;
+    int returnCounter = 1;
     while (!queue.empty()) {
         temp = queue.front(); // Gets airport at front of queue.
         queue.pop(); // Pops the airport from the queue.
-        cout << temp << endl; //print the visited vertex.
+        cout << returnCounter << ") " << temp << endl; //print the visited vertex.
+        returnCounter++; // counter is just for cout purposes.
         outputBFS.push_back(temp); //add the visited vertex to the output vector.
 
         vector<Vertex> adjacentVertices = g.getAdjacent(temp); //get all adjacentVertices.
@@ -425,3 +509,4 @@ vector<Vertex> Flights::BFS(Vertex start)
     
     return outputBFS;
 }
+

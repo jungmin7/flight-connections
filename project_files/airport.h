@@ -17,6 +17,7 @@ class Flights
     public:
     /**
      * Constructor
+     * Initializes flight graph with given routes and airports file
      */
     Flights(const string &, const string &);
 
@@ -27,20 +28,15 @@ class Flights
 
     /**
      * Function to read data from flight paths data set.
+     * Also uses readAirports to assist in creating the fligh graph
      */
     void readFlights(const string &, const string &);
 
     /**
     * Function to find strngly connected sets of airports (components)
-    * @return components
+    * @return 2D vector list for strongly connected components of graph
     */
-    void stronglyConnected();
-
-    /**
-    * Function to reverse graph
-    * @return reversed graph
-    */
-    Graph getReverse();
+    vector<vector<Vertex>> stronglyConnected();
 
     /**
      * Function to find the shortest path using Dijkstra's algorithm
@@ -48,9 +44,13 @@ class Flights
      * @param dest the arrival airport
      * @return the shortest distance path between two airports
      */
-    double shortestPath(Vertex src, Vertex dest);
+    int shortestPath(Vertex src, Vertex dest);
   
-    /*Comment here about functionality*/
+    /**
+     * Function to find the shortest path using Dijkstra's algorithm
+     * @param vertex takes a starting vertex and performs BFS
+     * @return vector list with nodes tranversed in order
+     */
     vector<Vertex> BFS(Vertex start);
 
     /**
@@ -59,15 +59,20 @@ class Flights
      * @param longitide longitude of the airport in degrees.
      * @return The distcance between airports.
      */
-    // double calculateDist(const double latitude, const double longitude);
     double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg);
 
+    /**
+     * Public instance variable storing our graph.
+     * Public so that you can change the graph when testing
+     */
+    Graph g;
+
     private:
-        Graph g;
+        // Graph g;
 
 
     /*
-    *   Helper fuctions
+    *   Start of helper fuctions section
     */
 
     /**
@@ -81,6 +86,12 @@ class Flights
      * @param vertex, visited map, and set to add all the connected components
      */
     void DFS(Vertex vertex, map<Vertex, bool> &visited, vector<Vertex> &set);
+    
+    /**
+    * Function to reverse graph
+    * @return reversed graph
+    */
+    Graph getReverse();
 
     /**
      * Helper function to convert a string into a double.
@@ -89,7 +100,6 @@ class Flights
      * @return double
      */
     double stringToDouble(string str);
-
 
     /** 
      * Helper method to convert degrees to radian used in calculateDistance
