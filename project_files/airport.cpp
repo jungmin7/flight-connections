@@ -293,63 +293,6 @@ vector<vector<Vertex>> Flights::stronglyConnected()
 }
 
 /**
-* Helper function for stronglyConnected()
-* @param vertex, visited map, and stack
-* @return stack in DFS ordered by visiting time
-*/
-void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, stack<Vertex> &stack)
-{
-    visited[vertex] = true;
-    for(Vertex v : g.getAdjacent(vertex))
-    {
-        if(visited[v])
-        {
-            continue;
-        }
-        DFS(v, visited, stack);
-    }
-    stack.push(vertex);
-}
-
-/**
-* Helper function for stronglyConnected()
-* @param vertex, visited map, and set list
-*/
-void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, vector<Vertex> &set)
-{
-    visited[vertex] = true;
-    set.push_back(vertex);
-    for(Vertex v : g.getAdjacent(vertex))
-    {
-        if(visited[v])
-        {
-            continue;
-        }
-        DFS(v, visited, set);
-    }
-}
-
-/**
-* Helper function for stronglyConnected()
-* @return reverse of graph
-*/
-Graph Flights::getReverse()
-{
-    Graph reverse(true, true);
-    vector<Vertex> vertices = g.getVertices();
-    for(unsigned i = 0; i < vertices.size(); i++)
-    {
-        for(Vertex each : g.getAdjacent(vertices[i]))
-        {
-            reverse.insertEdge(each, vertices[i]);
-            reverse.setEdgeWeight(each, vertices[i], g.getEdgeWeight(vertices[i], each));
-            reverse.setEdgeLabel(each, vertices[i], g.getEdgeLabel(vertices[i], each));
-        }
-    }
-    return reverse;
-}
-
-/**
  * Function to find the shortest path using Dijkstra's algorithm on the Graph saved as an instance variable
  * @param src the departure airport
  * @param dest the arrival airport
@@ -520,4 +463,61 @@ double Flights::degToRad(double deg) {
  */
 double Flights::radToDeg(double rad) {
   return (rad * 180 / M_PI);
+}
+
+/**
+* Helper function for stronglyConnected()
+* @param vertex, visited map, and stack
+* @return stack in DFS ordered by visiting time
+*/
+void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, stack<Vertex> &stack)
+{
+    visited[vertex] = true;
+    for(Vertex v : g.getAdjacent(vertex))
+    {
+        if(visited[v])
+        {
+            continue;
+        }
+        DFS(v, visited, stack);
+    }
+    stack.push(vertex);
+}
+
+/**
+* Helper function for stronglyConnected()
+* @param vertex, visited map, and set list
+*/
+void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, vector<Vertex> &set)
+{
+    visited[vertex] = true;
+    set.push_back(vertex);
+    for(Vertex v : g.getAdjacent(vertex))
+    {
+        if(visited[v])
+        {
+            continue;
+        }
+        DFS(v, visited, set);
+    }
+}
+
+/**
+* Helper function for stronglyConnected()
+* @return reverse of graph
+*/
+Graph Flights::getReverse()
+{
+    Graph reverse(true, true);
+    vector<Vertex> vertices = g.getVertices();
+    for(unsigned i = 0; i < vertices.size(); i++)
+    {
+        for(Vertex each : g.getAdjacent(vertices[i]))
+        {
+            reverse.insertEdge(each, vertices[i]);
+            reverse.setEdgeWeight(each, vertices[i], g.getEdgeWeight(vertices[i], each));
+            reverse.setEdgeLabel(each, vertices[i], g.getEdgeLabel(vertices[i], each));
+        }
+    }
+    return reverse;
 }
