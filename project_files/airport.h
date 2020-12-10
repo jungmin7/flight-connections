@@ -24,13 +24,13 @@ class Flights
     /**
      * Function to read longitude/latitude data from flights dataset.
      */
-    map<string, pair<double, double>> readAirports(const string &filename);
+    map<string, pair<double, double>> readAirports();
 
     /**
      * Function to read data from flight paths data set.
      * Also uses readAirports to assist in creating the fligh graph
      */
-    map<Vertex, Vertex> readFlights(const string &, const string &);
+    map<pair<Vertex, Vertex>, int> readFlights();
 
     /**
     * Function to find strngly connected sets of airports (components)
@@ -57,9 +57,9 @@ class Flights
      * Function to calculate distance between airports. Computes using Haversine formula using latitude and longitudes.
      * @param latitude latitude of the airport in degrees.
      * @param longitide longitude of the airport in degrees.
-     * @return The distcance between airports.
+     * @return The distcance between airports, rounded to an integer.
      */
-    double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg);
+    int distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg);
 
     /**
      * Public instance variable storing our graph.
@@ -68,8 +68,9 @@ class Flights
     Graph g;
 
     private:
-        // Graph g;
-
+        /** Private instance variables that takes in routes_data and airport_data from the constructor */
+        string routes_filename;
+        string airports_filename;
 
     /*
     *   Start of helper fuctions section

@@ -12,6 +12,10 @@ using namespace std;
 
 int main()
 {
-    Flights air("routes.txt", "airports.txt");
-    return 0;
+    Flights air("routes_test.txt", "airports.txt");
+    map<pair<Vertex, Vertex>, int> temp = air.readFlights();
+
+    cout << temp[{"SIN", "ICN"}] << endl;
+    cout << temp[{"ICN", "SIN"}] << endl;
+
 }
