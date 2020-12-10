@@ -34,11 +34,11 @@ Flights::Flights(const string &routes_data, const string &airport_data) : g(true
     readFlights(routes_data, airport_data);
 
     //DELETE AFTER TESTING, DEBUGGING, ETC...
-    g.print();
+    // g.print();
 }
 
 /**
- * readFlights function.
+ * readAirports function.
  * 
  * @param map of data file
  * @return vector<string>
@@ -385,7 +385,7 @@ vector<Vertex> Flights::BFS(Vertex start)
     vector<Vertex> outputBFS;
 
     int numVertices = g.getVertices().size();
-    cout << "numVertices: " << numVertices << endl;
+    // cout << "numVertices: " << numVertices << endl;
     /** Returns a vector containing all the vertices in our Graph, g */
     vector<Vertex> vertices = g.getVertices();
 
@@ -407,11 +407,14 @@ vector<Vertex> Flights::BFS(Vertex start)
     queue.push(start);
     
     Vertex temp;
-    cout << "BFS starting at Airport " << start << ":" << endl;
+    cout << "< BFS for Graph with " << numVertices << "-vertices starting at Vertex = " 
+        << start << " >" << endl;
+    int returnCounter = 1;
     while (!queue.empty()) {
         temp = queue.front(); // Gets airport at front of queue.
         queue.pop(); // Pops the airport from the queue.
-        cout << temp << endl; //print the visited vertex.
+        cout << returnCounter << ") " << temp << endl; //print the visited vertex.
+        returnCounter++; // counter is just for cout purposes.
         outputBFS.push_back(temp); //add the visited vertex to the output vector.
 
         vector<Vertex> adjacentVertices = g.getAdjacent(temp); //get all adjacentVertices.
@@ -425,3 +428,4 @@ vector<Vertex> Flights::BFS(Vertex start)
     
     return outputBFS;
 }
+

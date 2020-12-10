@@ -62,8 +62,12 @@ class Flights
     // double calculateDist(const double latitude, const double longitude);
     double distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg);
 
+    /** Public instance variable storing our graph.
+     * Public so that you can change the graph when testing */
+    Graph g;
+
     private:
-        Graph g;
+        // Graph g;
 
 
     /*
@@ -89,7 +93,6 @@ class Flights
      * @return double
      */
     double stringToDouble(string str);
-
 
     /** 
      * Helper method to convert degrees to radian used in calculateDistance
