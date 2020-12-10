@@ -407,7 +407,7 @@ int Flights::shortestPath(Vertex src, Vertex dest)
         //plus the weight of the edge is lower than the current distance of the
         //adjacent node
         for (auto it = adj.begin(); it != adj.end(); it++) {
-            if(g.edgeExists(curr, (*it)))
+            if (g.edgeExists(curr, (*it)))
             {
                 distfromCurr = g.getEdgeWeight(curr,(*it));
             
