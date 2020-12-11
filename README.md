@@ -1,7 +1,7 @@
 
 <!-- FINAL PROJECT EXPLANATION -->
 ## Final Project Explanation
-We used the OpenFlights (https://openflights.org/data.html) data set for our project, where we read the data and used it to create a graph to run algorithms of interest. We decided to use the airports.dat and routes.dat files listed on the OpenFlights website. The airports.dat file contains a list of over 10,000 airports with data items such as the airport name and country, the 3-digit IATA code, and longitude and latitude values. The routes.dat file contains flight paths from one airport to another (for example, ICN to SIN). 
+We used the OpenFlights (https://openflights.org/data.html) data set for our project, where we read the data and used it to create a graph to run algorithms of interest. We decided to use the airports.dat and routes.dat files listed on the OpenFlights website. The airports.dat file contains a list of over 10,000 airports with data items such as the 3-digit IATA code and longitude and latitude values. The routes.dat file contains flight paths from one airport to another (for example, ICN to SIN). 
 
 Our project is based on analyzing and performing three algorithms based on OpenFlights data set.
 The three algorithm are: BFS Traversal, Shortest Path between given vertices (Dijkstra's algorithm), and Strongly Connected Components (Kosaraju's algorithm).
