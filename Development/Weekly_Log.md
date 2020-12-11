@@ -1,4 +1,4 @@
-﻿Weekly Development Log
+﻿# Weekly Development Log#
 
 Jaywoo Jo, 
 Hemank Kohli, 
@@ -34,6 +34,12 @@ After a few days, after a lot of challenges, we successfully read the data and p
 find the paths between airports, and used the map of longitude/latitude points we created earlier to calculate the Haversine distance between two airports so we could create edge weights representing the distance between the airports.
 
 We also implemented our algorithms, but we are still working to revise our Djikstra's algorithm. As we approach the deadline on Friday, we will be wrapping up our test cases. Then, we will work on the other aspects of the project like the README, 1 to 2 page report, and presentation.
+
+# End of 12/07/20 #
+<!-- Week of 11/07/20 -->
+We wrapped up all of our test cases and made important design decisions on the best way to output the results of these test cases. As you can see if you run the tests, we outputted the results of the traversal, path, etc., along with an expected vs. actual output for debugging purposes. As seen in our test cases, we created thorough test cases that test important functions that can be run all at once (./test), individually (such as ./test test_integerEasy_BFS), or in groups (such as ./test [BFS]). 
+
+We also finished writing a report that describes the goals, development, and closing thoughts for our project. We explained specific design decisions and why they proved to be successful. Lastly, we will be finishing up our README and submitting our presentation.
 
 
 
