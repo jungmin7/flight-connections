@@ -20,7 +20,7 @@ https://docs.google.com/presentation/d/1X7W19w8QKExFXof0ubq4bdCS15rI1YQYrRCc_uVZ
 <!-- USAGE -->
 ## Usage
 To run the code, head to the project_files directory using ```cd project_files``` and once there use ```make clean```.
-**Main.cpp** has commented parts for each algorithms so please remove the comments for whichever algorithm you would like to run.
+Main.cpp has commented parts for each algorithms so please remove the comments for whichever algorithm you would like to run.
 Once main.cpp is ready, run ```make && ./main``` to run the code.
 Further instructions on how to change variables and file names are provided in main.cpp.
 
