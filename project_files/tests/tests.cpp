@@ -96,7 +96,7 @@ TEST_CASE("test_readAirports2", "[readAirports]")
 TEST_CASE("test_readAirports3", "[readAirports]")
 {
     cout << "[test_readAirports3]" << endl;
-    Flights air("routes_test.txt", "airports.txt");
+    Flights air("routes_test.txt", "airports_test.txt");
     map<string, pair<double, double>> myMap = air.readAirports();
     
     // expected value from data file: "JFK", 40.63980103, -73.77890015
