@@ -21,7 +21,6 @@ To run the code, head to the project_files directory using ```cd project_files``
 Main.cpp has commented parts for each algorithms so please remove the comments for whichever algorithm you would like to run.
 Once main.cpp is ready, run ```make && ./main``` to run the code.
 Further instructions on how to change variables and file names are provided in main.cpp.
-a
 We created thorough test cases that test important functions. 
 To run the tests, also first head into ```cd project_files```. Test can be run all at once (```./test```), individually (such as ```./test test_integerEasy_BFS```), or in groups (such as ```./test [BFS]```). When running our test cases, we also designed it to output the expected vs. actual result. For a closer look at each test case, head into  ```tests.cpp``` inside of the tests folder.
 
