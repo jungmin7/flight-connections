@@ -66,7 +66,7 @@ class Flights
          * Website used to test if our function works correctly: https://www.airmilescalculator.com/distance/sin-to-icn/
          * @param latitude latitude of the airport in degrees.
          * @param longitide longitude of the airport in degrees.
-         * @return The distcance between airports, rounded to an integer.
+         * @return The distance between airports, rounded to an integer.
          */
         int distanceHaversine(double lat1_deg, double lon1_deg, double lat2_deg, double lon2_deg);
 
