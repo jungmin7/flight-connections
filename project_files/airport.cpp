@@ -293,63 +293,6 @@ vector<vector<Vertex>> Flights::stronglyConnected()
 }
 
 /**
-* Helper function for stronglyConnected()
-* @param vertex, visited map, and stack
-* @return stack in DFS ordered by visiting time
-*/
-void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, stack<Vertex> &stack)
-{
-    visited[vertex] = true;
-    for(Vertex v : g.getAdjacent(vertex))
-    {
-        if(visited[v])
-        {
-            continue;
-        }
-        DFS(v, visited, stack);
-    }
-    stack.push(vertex);
-}
-
-/**
-* Helper function for stronglyConnected()
-* @param vertex, visited map, and set list
-*/
-void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, vector<Vertex> &set)
-{
-    visited[vertex] = true;
-    set.push_back(vertex);
-    for(Vertex v : g.getAdjacent(vertex))
-    {
-        if(visited[v])
-        {
-            continue;
-        }
-        DFS(v, visited, set);
-    }
-}
-
-/**
-* Helper function for stronglyConnected()
-* @return reverse of graph
-*/
-Graph Flights::getReverse()
-{
-    Graph reverse(true, true);
-    vector<Vertex> vertices = g.getVertices();
-    for(unsigned i = 0; i < vertices.size(); i++)
-    {
-        for(Vertex each : g.getAdjacent(vertices[i]))
-        {
-            reverse.insertEdge(each, vertices[i]);
-            reverse.setEdgeWeight(each, vertices[i], g.getEdgeWeight(vertices[i], each));
-            reverse.setEdgeLabel(each, vertices[i], g.getEdgeLabel(vertices[i], each));
-        }
-    }
-    return reverse;
-}
-
-/**
  * Function to find the shortest path using Dijkstra's algorithm on the Graph saved as an instance variable
  * @param src the departure airport
  * @param dest the arrival airport
@@ -387,8 +330,7 @@ int Flights::shortestPath(Vertex src, Vertex dest)
         //plus the weight of the edge is lower than the current distance of the
         //adjacent node
         for (auto it = adj.begin(); it != adj.end(); it++) {
-            if (g.edgeExists(curr, (*it)))
-            {
+            if (g.edgeExists(curr, (*it))) {
                 distfromCurr = g.getEdgeWeight(curr,(*it));
             
                 if (dist[curr] + distfromCurr < dist[*it]) {
@@ -405,7 +347,7 @@ int Flights::shortestPath(Vertex src, Vertex dest)
     }
 
     //printing stuff
-    if(dist[dest] == numeric_limits<double>::infinity())
+    if (dist[dest] == numeric_limits<double>::infinity())
     {
         cout << "No path found between entered source and destination." << endl;
         return -1;
@@ -418,17 +360,20 @@ int Flights::shortestPath(Vertex src, Vertex dest)
     stack<string> temp2;
 
     //rest of printing code
-    while(temp != src)
+    while (temp != src)
     {
         temp = pred[temp];
         temp2.push(temp);
     }
+
     cout << "Shortest flight path: ";
+
     while(!temp2.empty())
     {
         cout << temp2.top() << "->";
         temp2.pop();
     }
+
     cout << dest << endl;
 
 
@@ -520,4 +465,61 @@ double Flights::degToRad(double deg) {
  */
 double Flights::radToDeg(double rad) {
   return (rad * 180 / M_PI);
+}
+
+/**
+* Helper function for stronglyConnected()
+* @param vertex, visited map, and stack
+* @return stack in DFS ordered by visiting time
+*/
+void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, stack<Vertex> &stack)
+{
+    visited[vertex] = true;
+    for(Vertex v : g.getAdjacent(vertex))
+    {
+        if(visited[v])
+        {
+            continue;
+        }
+        DFS(v, visited, stack);
+    }
+    stack.push(vertex);
+}
+
+/**
+* Helper function for stronglyConnected()
+* @param vertex, visited map, and set list
+*/
+void Flights::DFS(Vertex vertex, map<Vertex, bool> &visited, vector<Vertex> &set)
+{
+    visited[vertex] = true;
+    set.push_back(vertex);
+    for(Vertex v : g.getAdjacent(vertex))
+    {
+        if(visited[v])
+        {
+            continue;
+        }
+        DFS(v, visited, set);
+    }
+}
+
+/**
+* Helper function for stronglyConnected()
+* @return reverse of graph
+*/
+Graph Flights::getReverse()
+{
+    Graph reverse(true, true);
+    vector<Vertex> vertices = g.getVertices();
+    for(unsigned i = 0; i < vertices.size(); i++)
+    {
+        for(Vertex each : g.getAdjacent(vertices[i]))
+        {
+            reverse.insertEdge(each, vertices[i]);
+            reverse.setEdgeWeight(each, vertices[i], g.getEdgeWeight(vertices[i], each));
+            reverse.setEdgeLabel(each, vertices[i], g.getEdgeLabel(vertices[i], each));
+        }
+    }
+    return reverse;
 }
