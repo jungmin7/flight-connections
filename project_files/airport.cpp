@@ -330,8 +330,7 @@ int Flights::shortestPath(Vertex src, Vertex dest)
         //plus the weight of the edge is lower than the current distance of the
         //adjacent node
         for (auto it = adj.begin(); it != adj.end(); it++) {
-            if (g.edgeExists(curr, (*it)))
-            {
+            if (g.edgeExists(curr, (*it))) {
                 distfromCurr = g.getEdgeWeight(curr,(*it));
             
                 if (dist[curr] + distfromCurr < dist[*it]) {
@@ -348,7 +347,7 @@ int Flights::shortestPath(Vertex src, Vertex dest)
     }
 
     //printing stuff
-    if(dist[dest] == numeric_limits<double>::infinity())
+    if (dist[dest] == numeric_limits<double>::infinity())
     {
         cout << "No path found between entered source and destination." << endl;
         return -1;
@@ -361,17 +360,20 @@ int Flights::shortestPath(Vertex src, Vertex dest)
     stack<string> temp2;
 
     //rest of printing code
-    while(temp != src)
+    while (temp != src)
     {
         temp = pred[temp];
         temp2.push(temp);
     }
+
     cout << "Shortest flight path: ";
+
     while(!temp2.empty())
     {
         cout << temp2.top() << "->";
         temp2.pop();
     }
+
     cout << dest << endl;
 
 

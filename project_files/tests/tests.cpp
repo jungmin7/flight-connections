@@ -555,6 +555,7 @@ TEST_CASE("test_sample_complex_shortestPath", "[shortestPath]") {
     Vertex v6 = "6";
     Vertex v7 = "7";
     Vertex v8 = "8";
+
     pathTest.insertVertex(v0);
     pathTest.insertVertex(v1);
     pathTest.insertVertex(v2);
@@ -564,6 +565,7 @@ TEST_CASE("test_sample_complex_shortestPath", "[shortestPath]") {
     pathTest.insertVertex(v6);
     pathTest.insertVertex(v7);
     pathTest.insertVertex(v8);
+
     pathTest.insertEdge("1", "2");
     pathTest.insertEdge("2", "3");
     pathTest.insertEdge("3", "0");
@@ -575,6 +577,7 @@ TEST_CASE("test_sample_complex_shortestPath", "[shortestPath]") {
     pathTest.insertEdge("7", "6");
     pathTest.insertEdge("7", "8");
     pathTest.insertEdge("2", "5");
+
     pathTest.setEdgeWeight("1", "2", 2);
     pathTest.setEdgeWeight("2", "3", 3);
     pathTest.setEdgeWeight("3", "0", 1);
@@ -602,11 +605,14 @@ TEST_CASE("test_flights_shortestPath", "[shortestPath]")
 {
     cout << "[test_flights_shortestPath]" << endl;
     Flights air("routes_test.txt","airports_test.txt");
+
     int path = air.shortestPath("EGO","KGD");
     int path_result = air.distanceHaversine(50.643798828125,36.5900993347168,54.88999938964844,20.592599868774414);
+    
     cout << "Expected distace: " << path_result << endl;
     cout << "Actual distace: " << path << endl;
     cout << " " << endl;
+    
     REQUIRE(path == path_result);
 }
 
