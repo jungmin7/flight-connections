@@ -1,4 +1,4 @@
-﻿# Weekly Development Log#
+﻿# Weekly Development Log #
 
 Jaywoo Jo, 
 Hemank Kohli, 
