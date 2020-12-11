@@ -26,15 +26,17 @@ class Flights
         /**
          * readAirports function to read longitude/latitude data from flight routes dataset that was previously saved through the constructor call.
          * The main purpose of this function is so that we can later calculate the distances between airports using the longitude/latitude values.
-         * @return a map<string, pair<double, double>> mapping an airport name to its corresponding pair of longitude and latitude values from the airports_data file.
+         * @return a map<Vertex, pair<double, double>> mapping an airport name to its corresponding pair of longitude and latitude values from the 
+         *         airports_data file.
          */
-        map<string, pair<double, double>> readAirports();
+        map<Vertex, pair<double, double>> readAirports();
 
         /**
          * readFlights function to read data from flight paths data set that was previously saved through the constructor call.
          * Also calls readAirports and uses the longitude/latitude values that were returned from readAirports to call distanceHaversine in order to
          * calculate distance between two airports.
-         * @return a map<pair<Vertex, Vertex>, int> where two values in the pair represent the flight path between the first airport to the second airport and int represents the distance between them.
+         * @return a map<pair<Vertex, Vertex>, int> where two values in the pair represent the flight path between the first airport to the second airport and 
+         *         int represents the distance between them.
          */
         map<pair<Vertex, Vertex>, int> readFlights();
 

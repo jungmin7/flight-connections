@@ -40,9 +40,9 @@ Flights::Flights(const string &routes_data, const string &airport_data) : g(true
 /**
  * readAirports function to read longitude/latitude data from flight routes dataset that was previously saved through the constructor call.
  * The main purpose of this function is so that we can later calculate the distances between airports using the longitude/latitude values.
- * @return a map<string, pair<double, double>> mapping an airport name to its corresponding pair of longitude and latitude values from the airports_data file.
+ * @return a map<Vertex, pair<double, double>> mapping an airport name to its corresponding pair of longitude and latitude values from the airports_data file.
  */
-map<string, pair<double, double>> Flights::readAirports() {
+map<Vertex, pair<double, double>> Flights::readAirports() {
     //Main variable to return
     //Contains all the airport data with coords
     map<string, pair<double, double>> coordinateMap;
