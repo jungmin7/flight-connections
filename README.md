@@ -12,6 +12,7 @@ Please refer to the **final report** that thoroughly explains our goals and deve
 https://docs.google.com/document/d/1_GpP6_4v_8IB3rl-n2YTE-Yo4ImPJpFXvOClcXQZB0w/edit
 
 Please also refer to our **presentation video** and **presentation slides**:
+
 (insert youtube link here)
 https://docs.google.com/presentation/d/1X7W19w8QKExFXof0ubq4bdCS15rI1YQYrRCc_uVZVHg/edit#slide=id.gb0bf1a33ca_2_0
 
@@ -19,10 +20,12 @@ https://docs.google.com/presentation/d/1X7W19w8QKExFXof0ubq4bdCS15rI1YQYrRCc_uVZ
 <!-- USAGE -->
 ## Usage
 To run the code, head to the project_files directory using ```cd project_files``` and once there use ```make clean```.
-Main.cpp has commented parts for each algorithms so please remove the comments for whichever algorithm you would like to run.
+**Main.cpp** has commented parts for each algorithms so please remove the comments for whichever algorithm you would like to run.
 Once main.cpp is ready, run ```make && ./main``` to run the code.
 Further instructions on how to change variables and file names are provided in main.cpp.
-The testing data set has also been provided and can be used by replacing the string names as instructed in main.cpp.
+
+We created thorough test cases that test important functions. 
+To run the tests, also first head into ```cd project_files```. Test can be run all at once (```./test```), individually (such as ```./test test_integerEasy_BFS```), or in groups (such as ```./test [BFS]```). When running our test cases, we also designed it to output the expected vs. actual result. For a closer look at each test case, head into  ```tests.cpp``` inside of the tests folder.
 
 
 <!-- CONTACT -->
