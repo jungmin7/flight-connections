@@ -6,12 +6,13 @@ We used the OpenFlights (https://openflights.org/data.html) data set for our pro
 Our project is based on analyzing and performing three algorithms based on OpenFlights data set.
 The three algorithm are: BFS Traversal, Shortest Path between given vertices (Dijkstra's algorithm), and Strongly Connected Components (Kosaraju's algorithm).
 The OpenFlight data set we used includes flight paths (routes) and information on each airport, such as the 3-letter code, and coordinates of the airport.
-For the purpose of testing, a subset of the data files have been provided called routes_test.txt and airports_test.txt.
+For the purpose of testing, a subset of the data files have been provided called routes_test.txt and airports_test.txt. These can also be called in main.cpp but have been commented out so please uncomment it to run subset of the entire data.
 
 Please refer to the **final report** that thoroughly explains our goals, developments, and results:
 https://docs.google.com/document/d/1_GpP6_4v_8IB3rl-n2YTE-Yo4ImPJpFXvOClcXQZB0w/edit
 
-Please also refer to our **presentation slides** here for an overview of our project:
+Please also refer to our **presentation slides** and **presentation video** here for an overview of our project:
+https://youtu.be/q3sOUJL-Adw
 https://docs.google.com/presentation/d/1X7W19w8QKExFXof0ubq4bdCS15rI1YQYrRCc_uVZVHg/edit#slide=id.gb0bf1a33ca_2_0
 
 
