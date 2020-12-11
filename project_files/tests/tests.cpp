@@ -137,8 +137,8 @@ TEST_CASE("test_readFlights1", "[readFlights]")
     Flights air("routes_test.txt", "airports_test.txt");
     map<pair<Vertex, Vertex>, int> m = air.readFlights();
 
-    int expected = m[{"SIN", "ICN"}];
-    int actual = 4613;
+    int actual = m[{"SIN", "ICN"}];
+    int expected = 4613;
     cout << "Expected distance between SIN and ICN: " << expected << " km" <<endl;
     cout << "Actual distance between SIN and ICN: " << actual << " km" << endl;
     bool check = actual - 30 < expected && actual + 30 > expected;
@@ -157,8 +157,8 @@ TEST_CASE("test_readFlights2", "[readFlights]")
     Flights air("routes_test.txt", "airports_test.txt");
     map<pair<Vertex, Vertex>, int> m = air.readFlights();
 
-    int expected = m[{"KZN", "CEK"}];
-    int actual = 773;
+    int actual = m[{"KZN", "CEK"}];
+    int expected = 773;
 
     cout << "Expected distance between KZN and CEK: " << expected << " km" << endl;
     cout << "Actual distance between KZN and CEK: " << actual << " km" << endl;
@@ -178,8 +178,8 @@ TEST_CASE("test_readFlights3", "[readFlights]")
     Flights air("routes_test.txt", "airports_test.txt");
     map<pair<Vertex, Vertex>, int> m = air.readFlights();
 
-    int expected = m[{"DME", "TGK"}];
-    int actual = 916;
+    int actual = m[{"DME", "TGK"}];
+    int expected = 916;
 
     cout << "Expected distance between DME and TGK: " << expected << " km" << endl;
     cout << "Actual distance between DME and TGK: " << actual << " km" << endl;
@@ -533,8 +533,8 @@ TEST_CASE("test_sample_simple_shortestPath", "[shortestPath]") {
     int dist = 17;
     int dist_result = air.shortestPath("1", "6");
 
-    cout << "Expected distace: " << dist << endl;
-    cout << "Actual distace: " << dist_result << endl;
+    cout << "Expected distance: " << dist << endl;
+    cout << "Actual distance: " << dist_result << endl;
     cout << " " << endl;
   
     REQUIRE(dist == dist_result);
@@ -590,8 +590,8 @@ TEST_CASE("test_sample_complex_shortestPath", "[shortestPath]") {
     int dist = 10;
     int dist_result = air.shortestPath("1", "6");
   
-    cout << "Expected distace: " << dist << endl;
-    cout << "Actual distace: " << dist_result << endl;
+    cout << "Expected distance: " << dist << endl;
+    cout << "Actual distance: " << dist_result << endl;
     cout << " " << endl;
   
     REQUIRE(dist == dist_result);
@@ -604,8 +604,8 @@ TEST_CASE("test_flights_shortestPath", "[shortestPath]")
     Flights air("routes_test.txt","airports_test.txt");
     int path = air.shortestPath("EGO","KGD");
     int path_result = air.distanceHaversine(50.643798828125,36.5900993347168,54.88999938964844,20.592599868774414);
-    cout << "Expected distace: " << path_result << endl;
-    cout << "Actual distace: " << path << endl;
+    cout << "Expected distance: " << path_result << endl;
+    cout << "Actual distance: " << path << endl;
     cout << " " << endl;
     REQUIRE(path == path_result);
 }
