@@ -8,12 +8,10 @@ The three algorithm are: BFS Traversal, Shortest Path between given vertices (Di
 The OpenFlight data set we used includes flight paths (routes) and information on each airport, such as the 3-letter code, and coordinates of the airport.
 For the purpose of testing, a subset of the data files have been provided called routes_test.txt and airports_test.txt.
 
-Please refer to the **final report** that thoroughly explains our goals and development:
+Please refer to the **final report** that thoroughly explains our goals, developments, and results:
 https://docs.google.com/document/d/1_GpP6_4v_8IB3rl-n2YTE-Yo4ImPJpFXvOClcXQZB0w/edit
 
-Please also refer to our **presentation video** and **presentation slides**:
-
-(insert youtube link here)
+Please also refer to our **presentation slides** here for an overview of our project:
 https://docs.google.com/presentation/d/1X7W19w8QKExFXof0ubq4bdCS15rI1YQYrRCc_uVZVHg/edit#slide=id.gb0bf1a33ca_2_0
 
 
